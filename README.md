@@ -1,8 +1,11 @@
 ## Antes de empezar
 
-Para utilizar este proyecto es necesario ejecutar una serie de comandos.
+Para utilizar este proyecto es necesario ejecutar los siguientes comandos.
 
 ```bash
+# Creamos el entorno virtual
+virtualenv -p python3 venv
+
 # Activamos el entorno virtual
 source venv/bin/activate
 
