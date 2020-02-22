@@ -13,6 +13,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Hacemos las migraciones
+cd moviesduck_project/
 python manage.py migrate
 
 # Corremos el servidor
