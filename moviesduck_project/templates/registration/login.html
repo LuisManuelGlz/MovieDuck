@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+  {% if form.errors %}
+    {% for error in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <h2 class="text-center">Log In</h2>
+      <hr />
+    
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+          {{ form.username|attr:"class:form-control"|attr:"placeholder:Username"|attr:"autofocus" }}
+        </div>
+
+        <div class="form-group">
+          {{ form.password|attr:"class:form-control"|attr:"placeholder:Password" }}
+        </div>
+
+
+        <div class="form-group text-center">
+          <button class="btn btn-primary mr-2">Log In</button>
+          <a class="btn" href="{% url 'registration:signup' %}">I need an account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
