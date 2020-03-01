@@ -13,10 +13,3 @@ class UserCreationFormWithEmail(UserCreationForm):
     if User.objects.filter(email=email).exists():
         raise forms.ValidationError('A user with that email already exists.')
     return email
-
-  def save(self, commit=True):
-    user = super(UserCreationFormWithEmail, self).save(commit=False)
-    user.email = self.cleaned_data['email']
-    if commit:
-        user.save()
-    return user
