@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Email change{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-4">
+      <h2>Email change</h2>
+      <hr />
+  
+      <form method="post">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+    
+        <div class="form-group">
+          <button class="btn btn-primary mr-2" type="submit">Change my email</button>
+          <a href="{% url 'registration:profile' %}">Go to my profile</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
