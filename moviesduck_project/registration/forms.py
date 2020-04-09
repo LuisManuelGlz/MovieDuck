@@ -9,6 +9,10 @@ class UserCreationFormWithEmail(UserCreationForm):
   password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
   password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm password'}))
   
+  class Meta:
+    model = User
+    fields = ['username', 'email', 'password1', 'password2',]
+
   def clean_email(self):
     email = self.cleaned_data.get('email')
     if User.objects.filter(email=email).exists():
