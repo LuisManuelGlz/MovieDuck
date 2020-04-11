@@ -16,8 +16,8 @@
   {% endif %}
 
   <div class="row justify-content-center">
-    <div class="col-4">
-      <h2 class="text-center">Log In</h2>
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <h2 class="text-center text-secondary">Log In</h2>
       <hr />
     
       <form method="post">
@@ -34,7 +34,7 @@
 
         <div class="form-group text-center">
           <button class="btn btn-primary mr-2" type="submit">Log In</button>
-          <a class="btn" href="{% url 'registration:signup' %}">I need an account</a>
+          <a class="btn text-secondary" href="{% url 'registration:signup' %}">I need an account</a>
         </div>
       </form>
     </div>

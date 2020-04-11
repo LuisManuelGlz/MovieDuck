@@ -1,0 +1,33 @@
+.bg-dark {
+  background-color: #081c36;
+}
+
+.navbar-dark {
+  color: #ffffff;
+}
+
+.text-secondary {
+  color: #8d9db1 !important;
+}
+
+.btn-primary {
+  background-color: #ff5c48;
+  border-color: #ff5c48;
+}
+
+.btn-primary:hover {
+  background: #FF7662;
+  border-color: #FF7662;
+}
+
+.form-control {
+  background-color: #253341;
+  border-color: #253341;
+  color: #8d9db1;
+}
+
+.form-control:focus {
+  background-color: #253341;
+  border-color: #253341;
+  color: #8d9db1;
+}
