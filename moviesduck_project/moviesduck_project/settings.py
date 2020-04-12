@@ -37,8 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'home',
     'movies',
+=======
+    
+    # Developer apps
+    'widget_tweaks',
+    'home',
+    'registration',
+    'movies'
+>>>>>>> b4c8dcdc161b8e31204e43ecd3022f3953f436ff
 ]
 
 MIDDLEWARE = [
@@ -124,3 +133,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+
+# Media files
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+LOGIN_REDIRECT_URL = 'registration:profile' # será la lista de películas más adelante
+LOGOUT_REDIRECT_URL = 'login'
