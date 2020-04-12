@@ -1,5 +1,18 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#content-wrapper {
+  background-color: #081c36 !important;
+}
+
 .bg-dark {
-  background-color: #081c36;
+  background-color: #081c36 !important;
+}
+
+.bg-gradient-primary {
+  background-color: #0c1a28 !important;
+  background-image: none;
 }
 
 .navbar-dark {
@@ -14,7 +27,7 @@
   background-color: #253341 !important;
 }
 
-.dropdown-divider {
+hr, .dropdown-divider {
   border-color: #8d9db1;
 }
 

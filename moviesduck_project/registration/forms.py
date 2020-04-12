@@ -4,10 +4,10 @@ from django import forms
 from .models import Profile
 
 class UserCreationFormWithEmail(UserCreationForm):
-  username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'autofocus': True}))
-  email = forms.CharField(label='', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
-  password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
-  password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm password'}))
+  username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Username', 'autofocus': True}))
+  email = forms.CharField(label='', widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Email Address'}))
+  password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Password'}))
+  password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Confirm Password'}))
   
   class Meta:
     model = User

@@ -5,73 +5,68 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-  <div class="card" style="background-color: #0C1A28">
+  <div class="card o-hidden border-0 shadow-lg my-5" style="background-color: #0c1a28;">
     <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
       <div class="row">
-        <div class="col-lg-6 p-5">
-          <h2 class="text-center text-secondary">Sign Up</h2>
-          <hr />
-        
-          <form method="post">
-            {% csrf_token %}
-    
-            <div class="form-group">
-              {{ form.username }}
-              {% for error in form.username.errors %}
-                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
-                  {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+        <div class="col-lg-7">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4 text-secondary">Create an Account!</h1>
+            </div>
+            <form class="user" method="POST">
+              {% csrf_token %}
+
+              <div class="form-group row">
+                <!-- <div class="col-sm-6 mb-3 mb-sm-0">
+                  <input type="text" class="form-control form-control-user"placeholder="First Name">
                 </div>
-              {% endfor %}
-            </div>
-    
-            <div class="form-group">
-              {{ form.email }}
-              {% for error in form.email.errors %}
-                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
-                  {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control form-control-user" placeholder="Last Name">
+                </div> -->
+              </div>
+              <div class="form-group">
+                {{ form.username }}
+                <ul>
+                  {% for error in form.username.errors %}
+                    <li class="text-danger">{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="form-group">
+                {{ form.email }}
+                <ul>
+                  {% for error in form.email.errors %}
+                    <li class="text-danger">{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form.password1 }}
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form.password2 }}
+                  </div>
                 </div>
-              {% endfor %}
+                <ul>
+                  {% for error in form.password2.errors %}
+                    <li class="text-danger">{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <button class="btn btn-primary btn-user btn-block" type="submit">
+                Signup
+              </button>
+            </form>
+            <hr>
+            <div class="text-center">
+              <a class="small text-decoration-none text-secondary" href="{% url 'login' %}">I already have an account</a>
             </div>
-    
-            <div class="form-group">
-              {{ form.password1 }}
-              {% for error in form.password1.errors %}
-                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
-                  {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              {% endfor %}
-            </div>
-    
-            <div class="form-group">
-              {{ form.password2 }}
-              {% for error in form.password2.errors %}
-                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
-                  {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              {% endfor %}
-            </div>
-    
-            <div class="form-group text-center">
-              <button class="btn btn-primary mr-2" type="submit">Register</button>
-              <a class="btn text-secondary" href="{% url 'login' %}">I already have an account</a>
-            </div>
-          </form>
+          </div>
         </div>
-        <div class="col-lg-6 d-none d-lg-block">
-          <img style="max-width: 100%; min-height: 100%" src="{% static 'img/sala.jpg' %}" alt="sala">
-        </div>
+        <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
       </div>
     </div>
   </div>
