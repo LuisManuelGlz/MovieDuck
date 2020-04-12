@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load widget_tweaks %}
 
 {% block title %}Log In{% endblock %}
@@ -15,28 +16,36 @@
     {% endfor %}
   {% endif %}
 
-  <div class="row justify-content-center">
-    <div class="col-sm-8 col-md-6 col-lg-4">
-      <h2 class="text-center text-secondary">Log In</h2>
-      <hr />
-    
-      <form method="post">
-        {% csrf_token %}
-
-        <div class="form-group">
-          {{ form.username|attr:"class:form-control"|attr:"placeholder:Username"|attr:"autofocus" }}
+  <div class="card mb-5" style="background-color: #0C1A28">
+    <div class="card-body p-0">
+      <div class="row">
+        <div class="col-4 d-none d-lg-block">
+          <img style="max-width: 100%; max-height: 100%" src="{% static 'img/pop.jpg' %}" alt="sala">
         </div>
 
-        <div class="form-group">
-          {{ form.password|attr:"class:form-control"|attr:"placeholder:Password" }}
-        </div>
+        <div class="col-lg-8 p-5">
+          <h2 class="text-center text-secondary">Log In</h2>
+          <hr />
+        
+          <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+              {{ form.username|attr:"class:form-control"|attr:"placeholder:Username"|attr:"autofocus" }}
+            </div>
+
+            <div class="form-group">
+              {{ form.password|attr:"class:form-control "|attr:"placeholder:Password" }}
+            </div>
 
 
-        <div class="form-group text-center">
-          <button class="btn btn-primary mr-2" type="submit">Log In</button>
-          <a class="btn text-secondary" href="{% url 'registration:signup' %}">I need an account</a>
+            <div class="form-group text-center">
+              <button class="btn btn-primary mr-2" type="submit">Log In</button>
+              <a class="btn text-secondary" href="{% url 'registration:signup' %}">I need an account</a>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 {% endblock %}

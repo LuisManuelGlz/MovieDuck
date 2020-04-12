@@ -6,6 +6,18 @@
   color: #ffffff;
 }
 
+.dropdown-menu {
+  background-color: #253341;
+}
+
+.dropdown-item:hover {
+  background-color: #253341 !important;
+}
+
+.dropdown-divider {
+  border-color: #8d9db1;
+}
+
 .text-secondary {
   color: #8d9db1 !important;
 }

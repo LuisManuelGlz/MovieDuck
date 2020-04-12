@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %} | MoviesDuck</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/sb-admin-2.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/custom.css' %}">
   </head>
   <body class="bg-dark">
@@ -38,10 +39,10 @@
                   {{ user.username }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'registration:profile' %}">Profile</a>
-                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item text-secondary" href="{% url 'registration:profile' %}">Profile</a>
+                  <a class="dropdown-item text-secondary" href="#">Another action</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                  <a class="dropdown-item text-secondary" href="{% url 'logout' %}">Logout</a>
                 </div>
               </li>
             </ul>
