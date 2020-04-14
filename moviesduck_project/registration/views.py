@@ -25,3 +25,11 @@ class EmailUpdate(LoginRequiredMixin, generic.UpdateView):
 
   def get_object(self):
     return self.request.user
+
+class NameUpdate(LoginRequiredMixin, generic.UpdateView):
+  template_name = 'registration/name_form.html'
+  form_class = EmailForm
+  success_url = reverse_lazy('registration:profile')
+
+  def get_object(self):
+    return self.request.user

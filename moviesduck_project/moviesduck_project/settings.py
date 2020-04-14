@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'home',
     'registration',
-    'movies'
+    'movies',
 ]
 
 MIDDLEWARE = [
