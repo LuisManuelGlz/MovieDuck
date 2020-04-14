@@ -7,13 +7,17 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
-    <img src="{{ request.user.profile.avatar.url }}" alt="{{ request.user.username }}">
+    <img
+      class="rounded-circle"
+      width="60px"
+      src="{{ request.user.profile.avatar.url }}"
+      alt="{{ request.user.username }}">
 
     {{ form.as_p }}
 
     <div class="form-group">
-      <a href="{% url 'password_change' %}">Change password</a>
-      <a href="{% url 'registration:email-change' %}">Change email</a>
+      <a class="btn text-secondary" href="{% url 'password_change' %}">Change password</a>
+      <a class="btn text-secondary" href="{% url 'registration:email-change' %}">Change email</a>
       <button class="btn btn-primary" type="submit">Save</button>
     </div>
   </form>

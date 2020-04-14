@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load widget_tweaks %}
 
 {% block title %}Log In{% endblock %}
@@ -16,27 +17,53 @@
   {% endif %}
 
   <div class="row justify-content-center">
-    <div class="col-4">
-      <h2 class="text-center">Log In</h2>
-      <hr />
-    
-      <form method="post">
-        {% csrf_token %}
 
-        <div class="form-group">
-          {{ form.username|attr:"class:form-control"|attr:"placeholder:Username"|attr:"autofocus" }}
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5" style="background-color: #0c1a28;">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4 text-secondary">Welcome Back!</h1>
+                </div>
+                <form class="user" method="POST">
+                  {% csrf_token %}
+
+                  <div class="form-group">
+                    {{ form.username|attr:"class:form-control form-control-user"|attr:"placeholder:Username" }}
+                  </div>
+
+                  <div class="form-group">
+                    {{ form.password|attr:"class:form-control form-control-user"|attr:"placeholder:Password" }}
+                  </div>
+                  <button class="btn btn-primary btn-user btn-block mr-2" type="submit">Login</button>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <a 
+                    class="small text-decoration-none text-secondary"
+                    href="forgot-password.html">
+                    Forgot Password?
+                  </a>
+                </div>
+                <div class="text-center">
+                  <a 
+                    class="small text-decoration-none text-secondary"
+                    href="{% url 'registration:signup' %}">
+                    I need an account
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="form-group">
-          {{ form.password|attr:"class:form-control"|attr:"placeholder:Password" }}
-        </div>
-
-
-        <div class="form-group text-center">
-          <button class="btn btn-primary mr-2" type="submit">Log In</button>
-          <a class="btn" href="{% url 'registration:signup' %}">I need an account</a>
-        </div>
-      </form>
     </div>
+
   </div>
 {% endblock %}
