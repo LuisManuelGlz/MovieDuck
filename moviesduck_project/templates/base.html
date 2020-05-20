@@ -143,7 +143,7 @@
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-        
+
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item {% if request.resolver_match.view_name == 'home:home' %}active{% endif %}">
@@ -164,7 +164,7 @@
                     <li class="nav-item dropdown no-arrow">
                       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username }}</span>
-                        <img 
+                        <img
                           class="img-profile rounded-circle"
                           width="32px"
                           src="{{ user.profile.avatar.url }}"
@@ -206,11 +206,11 @@
             </div>
           </nav>
           <!-- End of Topbar -->
-          
+
           <!-- Begin Page Content -->
           <div class="container-fluid mt-4">
             {% block content %}{% endblock %}
-          
+
           </div>
           <!-- /.container-fluid -->
 
@@ -222,7 +222,7 @@
 
     </div>
     <!-- End of Page Wrapper -->
-    
+
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -232,6 +232,6 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
+    {% block js-extras %}{% endblock js-extras %}
   </body>
 </html>

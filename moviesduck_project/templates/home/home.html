@@ -6,4 +6,27 @@
 
 <h2>Movie Duck</h2>
 
+<!--########## MOVIE LISTS ##########-->
+<style>
+.carousel img.d-block { max-height: 500px; min-width: auto; object-fit: cover;;}
+</style>
+<h1>Trending</h1>
+<div id="trendingCarousel" class="carousel slide" data-ride="carousel">
+	<div class="carousel-inner"></div>
+</div>
+
+<h1>New Releases</h1>
+<div id="newReleasesCarousel" class="carousel slide" data-ride="carousel">
+	<div class="carousel-inner"></div>
+</div>
+
+<h1>Recent Reviews</h1>
+<div id="newReviewsCarousel" class="carousel slide" data-ride="carousel">
+	<div class="carousel-inner"></div>
+</div>
 {%endblock%}
+{% block js-extras %}<script type="text/javascript">
+	$("#trendingCarousel .carousel-inner").load("{% url 'movies:trending_carousel' %}");
+	$("#newReleasesCarousel .carousel-inner").load("{% url 'movies:newest_carousel' %}");
+	$("#newReviewsCarousel .carousel-inner").load("{% url 'movies:newreviews_carousel' %}");
+	</script>{% endblock js-extras %}
