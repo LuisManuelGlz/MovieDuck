@@ -137,5 +137,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-LOGIN_REDIRECT_URL = 'registration:profile' # será la lista de películas más adelante
+LOGIN_REDIRECT_URL = 'home:home' # será la lista de películas más adelante
 LOGOUT_REDIRECT_URL = 'login'
