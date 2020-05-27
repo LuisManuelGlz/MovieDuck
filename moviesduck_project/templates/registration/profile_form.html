@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 
 {% block title %}My profile{% endblock %}
 
@@ -7,18 +6,46 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
-    <img
-      class="rounded-circle"
-      width="60px"
-      src="{{ request.user.profile.avatar.url }}"
-      alt="{{ request.user.username }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-3 mb-4">
+          <img
+            class="rounded-circle"
+            width="100px"
+            src="{{ request.user.profile.avatar.url }}"
+            alt="{{ request.user.username }}">
+          <p>
+            {{ form.avatar }}
+          </p>
+        </div>
+        <div class="col-12 col-lg-8">
+          <h3 class="text-secondary text-uppercase">Information</h3>
+          <hr />
+          <div class="form-group">
+            <label>{{ form.location.label }}</label>
+            {{ form.location }}
+            <ul>
+              {% for error in form.location.errors %}
+              <li class="text-danger">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          
+          <div class="form-group">
+            <label>{{ form.bio.label }}</label>
+            {{ form.bio }}
+            <ul>
+              {% for error in form.bio.errors %}
+                <li class="text-danger">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
 
-    {{ form.as_p }}
-
-    <div class="form-group">
-      <a class="btn text-secondary" href="{% url 'password_change' %}">Change password</a>
-      <a class="btn text-secondary" href="{% url 'registration:email-change' %}">Change email</a>
-      <button class="btn btn-primary" type="submit">Save</button>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Save changes</button>
+      </div>
     </div>
   </form>
 {% endblock %}

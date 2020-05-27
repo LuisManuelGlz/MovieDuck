@@ -38,13 +38,9 @@
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
-              <a class="dropdown-item text-secondary" href="#">
+              <a class="dropdown-item text-secondary" href="{% url 'registration:account' %}">
                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-              </a>
-              <a class="dropdown-item text-secondary" href="#">
-                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                Activity Log
+                Account settings
               </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-secondary" href="{% url 'logout' %}">
