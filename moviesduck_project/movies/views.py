@@ -23,9 +23,10 @@ class CarouselTrending(MovieListMixin):
     trending_list = True
     # Get movies BUT prefetch only reviews made in the last 24 hours
     queryset = Movie.objects \
-    .prefetch_related(Prefetch("reviews", \
-    Review.objects.filter(create_time__gt = localtime() - timedelta(days=1)))) \
-    .order_by("reviews__count")[:10]
+            .prefetch_related(Prefetch("reviews", \
+            Review.objects.filter(create_time__gt = localtime() - \
+            timedelta(days=1)))) \
+            .order_by("reviews__count")[:10]
 
 # Most recent reviews
 class CarouselRecentReviews(ReviewListMixin):
