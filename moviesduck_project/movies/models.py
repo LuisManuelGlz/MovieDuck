@@ -100,17 +100,30 @@ class MovieScreenshot(MetaData):
     def __str__(self):
         return f"A screenshot of {self.movie}"
 
-########## REVIEWS & COMMENTS ##########
+########## REVIEWS, COMMENTS, & LIKES ##########
+class Like(MetaData):
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+    def __str__(self):
+        return f"A like from {self.create_user.username} " \
+                f"on {self.content_type} #{self.object_id}"
+
 class Comment(MetaData):
     body = models.TextField(max_length=128)
-    likes = models.PositiveIntegerField()
+    likes = GenericRelation(
+            Like,
+            related_query_name="liked_item"
+            )
     responses = GenericRelation(
             "Comment",
-            related_query_name="parent_comment"
+            related_query_name="parent_item"
             )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
+    def __str__(self):
+        return f"A response to {self.content_type} #{self.object_id}"
 
 class Review(MetaData):
     movie = models.ForeignKey(
@@ -123,13 +136,18 @@ class Review(MetaData):
             )
     summary = models.TextField(max_length=128)
     body = models.TextField()
-    likes = models.PositiveIntegerField()
+    likes = GenericRelation(
+            Like,
+            related_query_name="liked_item"
+            )
+    @property
+    def like_count(self):
+        return self.likes.count()
     comments = GenericRelation(
             Comment,
-            related_query_name="parent_review"
+            related_query_name="parent_item"
             )
     class Meta:
         ordering = ["-create_time"]
     def __str__(self):
         return f"A review of {self.movie}"
-
