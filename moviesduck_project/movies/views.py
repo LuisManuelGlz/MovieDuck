@@ -31,3 +31,5 @@ class CarouselTrending(MovieListMixin):
 class CarouselRecentReviews(ReviewListMixin):
     template_name = "movies/carousel_review_list.html"
     queryset = Review.objects.all()[:10]
+
+
