@@ -20,6 +20,7 @@ urlpatterns = [
         name="newreviews_carousel"
         ),
     ##########
+    # Review interaction
     path( # Toggle like/unlike on a review
         "reviews/<int:pk>/like",
         views.toggle_like_review,
@@ -48,27 +49,31 @@ path( # Movie details page focused on user's just created review
     ),
 # Review interaction
 path( # Create a review
-    "reviews/create/for_<int:movie_pk>",
+    "<int:movie_pk>/reviews/create",
     views.CreateReview.as_view(),
     name="review_create"
     ),
 path( # Delete a review
-    "reviews/<int:pk>/delete",
+    "<int:movie_pk>/reviews/<int:pk>/delete",
     views.DeleteReview.as_view(),
     name="review_delete"
     ),
-path( # Toggle like/unlike on a review
-    "reviews/<int:review>/like",
-    views.toggle_like_review,
-    name="review_like"
-    ),
+    
 path( # Respond to a review
-    "reviews/<int:pk>/respond",
+    "<int:movie_pk>/reviews/<int:review_pk>/respond",
     views.RespondToReview.as_view(),
-    name="respond"
+    name="review_respond"
     ),
 
+path( # Delete a comment
+        "<int:movie_pk>/comments/<int:pk>/delete",
+        views.DeleteComment.as_view(),
+        name="comment_delete"
+    )
+
 path( # Respond to a comment
-    "comments/<int:comment_pk>/respond"
+    "<int:movie_pk>/comments/<int:comment_pk>/respond",
+    views.RespondToComment.as_view(),
+    name="comment_respond"
     ),
 """

@@ -57,10 +57,7 @@ class CreateReview(ReviewMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy(
             "movie_details",
-            kwargs = {
-                "pk": self.object.movie.pk,
-                "review_pk": self.object.pk
-                }
+            kwargs = {"pk": self.object.movie.pk, "review_pk": self.object.pk}
             )
 
     # Add user and movie from URL arguments
@@ -69,7 +66,14 @@ class CreateReview(ReviewMixin, CreateView):
         form.instance.movie = Movie.objects.get(pk=self.kwargs["movie_pk"])
         return super.form_valid(form)
 
-
+# Delete a review
+class DeleteReview(ReviewMixin, DeleteView):
+    # Return to movie details page
+    def get_success_url(self):
+        return reverse_lazy(
+            "movie_details",
+            kwargs = {"pk": self.object.movie.pk}
+            )
 
 # Toggle like/dislike on a review
 @login_required

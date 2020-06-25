@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
+from django.urls import reverse_lazy
 
 ########## REGISTER METADATA ##########
 class MetaData(models.Model):
@@ -85,6 +86,15 @@ class Movie(MetaData):
             Person, blank=True,
             related_name="movies_appeared"
             )
+    # RELATED URLS
+    @property # Details page
+    def details_page_url(self):
+        return reverse_lazy("movies:movie_details", kwargs = {"pk": self.pk})
+    @property # Create a review of this movie
+    def create_review_url(self):
+        return reverse_lazy(
+            "movies:review_create", kwargs = {"movie_pk": self.pk}
+            )
     class Meta:
         ordering = ["-release_date"]
     def __str__(self):
@@ -92,8 +102,7 @@ class Movie(MetaData):
 
 class MovieScreenshot(MetaData):
     movie = models.ForeignKey(
-            Movie,
-            on_delete=models.CASCADE,
+            Movie, on_delete=models.CASCADE,
             related_name="screenshots"
             )
     image = models.ImageField(upload_to="screenshots/")
@@ -111,19 +120,32 @@ class Like(MetaData):
 
 class Comment(MetaData):
     body = models.TextField(max_length=128)
-    likes = GenericRelation(
-            Like,
-            related_query_name="liked_item"
-            )
-    responses = GenericRelation(
-            "Comment",
-            related_query_name="parent_item"
-            )
+    likes = GenericRelation(Like, related_query_name="liked_item")
+    responses = GenericRelation("Comment")
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
+    # RELATED URLS
+    @property # Find the id of the movie that the original review is of
+    def movie_pk(self):
+        return self.original_post.get().movie.pk
+    @property # Toggle like/unlike on comment
+    def like_url(self):
+        return reverse_lazy("movies:comment_like", kwargs = {"pk": self.pk})
+    @property # Respond to comment
+    def respond_url(self):
+        return reverse_lazy(
+            "movies:comment_respond",
+            kwargs = {"movie_pk": self.movie_pk, "comment_pk": self.pk}
+            )
+    @property # Delete a comment
+    def delete_url(self):
+        return reverse_lazy(
+            "movies:comment_delete",
+            kwargs = {"movie_pk": self.movie_pk, "pk": self.pk}
+            )
     def __str__(self):
-        return f"A response to {self.content_type} #{self.object_id}"
+        return f"Response #{self.pk} to {self.content_type} #{self.object_id}"
 
 class Review(MetaData):
     movie = models.ForeignKey(
@@ -136,18 +158,28 @@ class Review(MetaData):
             )
     summary = models.TextField(max_length=128)
     body = models.TextField()
-    likes = GenericRelation(
-            Like,
-            related_query_name="liked_item"
-            )
+    likes = GenericRelation(Like, related_query_name="liked_item")
     @property
     def like_count(self):
         return self.likes.count()
-    comments = GenericRelation(
-            Comment,
-            related_query_name="parent_item"
+    comments = GenericRelation(Comment, related_query_name="original_post")
+    # RELATED URLS
+    @property # Toggle like/unlike on review
+    def like_url(self):
+        return reverse_lazy("movies:review_like", kwargs = {"pk": self.pk})
+    @property # Respond to review
+    def respond_url(self):
+        return reverse_lazy(
+            "movies:review_respond",
+            kwargs = {"movie_pk": self.movie.pk, "review_pk": self.pk}
+            )
+    @property # Delete review
+    def delete_url(self):
+        return reverse_lazy(
+            "movies:review_delete",
+            kwargs = {"pk": self.pk, "movie_pk": self.movie.pk}
             )
     class Meta:
         ordering = ["-create_time"]
     def __str__(self):
-        return f"A review of {self.movie}"
+        return f"Review #{self.pk} of {self.movie}"
