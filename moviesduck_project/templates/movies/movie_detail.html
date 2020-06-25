@@ -1,76 +1,80 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Movie title {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col">
-      <!-- Movie Poster -->
-      <div class="row">Poster (Aquí debe de ir una imagen)</div>
-      <!-- End of Movie Poster -->
-      
+  <div class="container">
+    <!-- Movie Poster -->
+    <!-- <div class="row" style="background-size: cover;">
+      <img class="img-fluid" src="{{ movie.poster.url }}" alt="{{ movie.title }}-poster">
+    </div> -->
+    <!-- End of Movie Poster -->
+    
+    <!-- Movie Info Container -->
+    <div class="row">
 
-      <!-- Movie Info Container -->
-      <div class="row">
-
-        <!-- Movie Info -->
-        <div class="col-12 col-md-6">
-          <div class="text-white">
-          <div class="row">
-            <h2>Movie tittle</h2>
-            <div class="mt-2 ml-4">
-              <i class="fas fa-star text-warning"></i>
-              <i class="fas fa-star text-warning"></i>
-              <i class="fas fa-star text-warning"></i>
-              <i class="fas fa-star text-warning"></i>
-            </div>
-          </div>
-         </div>
-          <div class="row">
-            <div class="col-12 col-lg-6">
-              <div class="text-white">
-                <h5>Summary</h5>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt blanditiis iusto fugit maiores, ipsum eaque numquam molestiae. Aliquid quisquam ut, culpa, minus illo amet in, dolor sit ea voluptate et?</p>
-              </div>
-              <div class="text-white">
-                <h5>Director</h5>
-                <p>Lorem ipsum dolor</p>
-              </div>
-            </div>
-            <div class="text-white" >
-                <i class="col-12 col-lg-6"></i>
-              <h5>Generes</h5>
-              <p>Lorem, ipsum, dolor, sit</p>
-            </div>
+      <!-- Movie Info -->
+      <div class="col-12 col-md-6">
+        <div class="row">
+          <h2 class="text-white">{{ movie.title }}</h2>
+          <div class="mt-2 ml-4">
+            <span class="badge badge-secondary">{{ movie.rating }}</span>
           </div>
         </div>
-        <!-- End of Movie Info -->
 
-        <!-- Reviews -->
-        <div class="col-12 col-md-6">
-          <h5 class="text-white">Reviews</h5>
-          <div class="media">
-            <div class= "text-white">
-              <h5 class="mt-0">Summary</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        <div class="row mt-3">
+          <div class="col-12 col-lg-6 pl-0">
+            <h4 class="text-white mt-2">Summary</h4>
+            <p>{{ movie.summary }}</p>
 
-              <div class="media mt-3">
-                <a class="mr-0" href="#">
-                  
-                </a>
-                <div class="text-white">
-                  <h5 class="mt-0">Summary</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-              </div>
-            </div>
+            <h4 class="text-white mt-2">Director</h4>
+            <p>{{ movie.director }}</p>
+
+            <h4 class="text-white mt-2">Producers</h4>
+            {% for producer in movie.producers.all %}
+              <span>{{producer.name}}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
           </div>
-          
-        </div>
-        <!-- End of Reviews -->
 
+          <div class="col-12 col-lg-6 pl-0">
+            <h4 class="text-white mt-2">Writers</h4>
+            {% for writer in movie.writers.all %}
+              <span>{{writer.name}}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+
+            <h4 class="text-white mt-2">Generes</h4>
+            {% for genere in movie.generes.all %}
+              <span>{{genere.name}}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+
+            <h4 class="text-white mt-2">Stars</h4>
+            {% for star in movie.stars.all %}
+              <span>{{star.name}}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+
+            <h4 class="text-white mt-2">Cast</h4>
+            {% for actor in movie.cast.all %}
+              <span>{{actor.name}}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </div>
+        </div>
       </div>
-      <!-- End of Movie Info Container -->
+      <!-- End of Movie Info -->
+
+      <!-- Reviews -->
+      <div class="col-12 col-md-6 p-0">
+        <h4 class="text-white">Reviews</h4>
+        <div class="media">
+          <div class="media-body">
+            <h5 class="mt-0 text-white">Summary</h5>
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+          </div>
+        </div>
+      </div>
+      <!-- End of Reviews -->
+
     </div>
+    <!-- End of Movie Info Container -->
   </div>
 {% endblock %}

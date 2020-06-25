@@ -11,6 +11,10 @@ class MovieListMixin(ListView):
 class ReviewListMixin(ListView):
     context_object_name = "reviews"
 
+########## MOVIE DETAIL ##########
+class MovieDetail(DetailView):
+    model = Movie
+
 ##### HTML CAROUSEL-BASED LISTS #####
 # New releases
 class CarouselNewReleases(MovieListMixin):

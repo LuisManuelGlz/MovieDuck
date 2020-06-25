@@ -15,6 +15,12 @@
   background-image: none;
 }
 
+.border-primary {
+  border-color: #ff5c48;
+  border-radius: 20px;
+  padding: 12px;
+}
+
 .navbar-dark {
   color: #ffffff;
 }
@@ -29,6 +35,10 @@
 
 hr, .dropdown-divider {
   border-color: #8d9db1;
+}
+
+.text-primary {
+  color: #ff5c48 !important;
 }
 
 .text-secondary {
