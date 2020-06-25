@@ -1,0 +1,16 @@
+<div id="comment{{ comment.pk }}" class="media">
+	<img
+		class="mr-3"
+		src="{{ comment.create_user.profile.avatar.url }}"
+		alt="Avatar of {{ comment.create_user.username }}"
+		style="width:50px;height:auto;"
+	>
+	<div class="media-body">
+		<h4>{{ comment.create_user.username }}</h4>
+		<p>{{ comment.body }}</p>
+		<div><!-- INTERACTION BUTTONS SHOULD GO HERE --></div>
+		{% for comment in comment.responses.all %}
+			{% include 'movies/comment.html' %}
+		{% endfor %}
+	</div>
+</div>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Movie title {% endblock %}
+{% block title %}Details for {{ movie }}{% endblock %}
 
 {% block content %}
   <div class="container">
@@ -17,7 +17,7 @@
       <!-- Movie Info -->
       <div class="col-12 col-md-6">
         <div class="row">
-          <h2 class="text-white">{{ movie.title }}</h2>
+          <h1 class="text-white">{{ movie.title }}</h1>
           <div class="mt-2 ml-4">
             <span class="badge badge-secondary">{{ movie.rating }}</span>
           </div>
@@ -63,14 +63,19 @@
       <!-- End of Movie Info -->
 
       <!-- Reviews -->
-      <div class="col-12 col-md-6 p-0">
-        <h4 class="text-white">Reviews</h4>
+      <div class="col-12 p-0">
+        <h2 class="text-white">Reviews</h2>
+        {% for review in movie.reviews.all %}
+          {% include 'movies/review.html' %}
+        {% endfor %}
+        <!-- REPLACED BY REVIEW TEMPLATE
         <div class="media">
           <div class="media-body">
             <h5 class="mt-0 text-white">Summary</h5>
             Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
           </div>
         </div>
+        -->
       </div>
       <!-- End of Reviews -->
 

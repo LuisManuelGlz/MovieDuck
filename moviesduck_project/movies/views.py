@@ -8,6 +8,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
+from django import template
+register = template.Library()
+
+########## CUSTOM FILTERS ##########
+@register.filter(name="liked_by")
+def item_liked_by_user(item, user):
+    return item.likes.filter(create_user = user).exists()
 
 ########## MOVIE LISTS ##########
 class MovieListMixin(ListView):

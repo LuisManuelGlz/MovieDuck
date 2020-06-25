@@ -1,21 +1,30 @@
-<div>
-	<div class="card">
-		<div class="card-body">
-			<h4 class="card-title">
-				{{ review.create_user.name }} says:
-			</h4>
-			<h5 class="card-subtitle">
-				{{ review.score }}/10
-			</h5>
-			<p>
-				{{ review.summary }}
-			</p>
-			<hr>
-			<p>
-				{{ review.body }}
-			</p>
+<div id="review{{ review.pk }}" class="media">
+	<img
+		class="mr-3"
+		src="{{ review.create_user.profile.avatar.url }}"
+		alt="Avatar of {{ review.create_user.username }}"
+		style="width:100px;height:auto;"
+	>
+	<div class="media-body">
+		<h2 class="mt-0">
+			{{ review.create_user.username }} says...
+			<small class="text-muted">{{ review.score }}/10</small>
+		</h2>
+		<p class="lead">"{{ review.summary }}"</p>
+		<p>{{ review.body }}</p>
+		<div>
+			{% if user.is_authenticated %}
+			<button
+				class="btn btn-{% if review|liked_by:user %}{% else %}{% endif %}"
+				
+			>
+			</button>
+			{% else %}
+			<a>Log in or sign up to reply.</a>
+			{% endif %}
 		</div>
-	</div>
-	<div>
+		{% for comment in review.comments.all %}
+			{% include 'movies/comment.html' %}
+		{% endfor %}
 	</div>
 </div>

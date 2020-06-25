@@ -10,7 +10,7 @@ def custom_upload_to(instance, filename):
   return f'profiles_pics/{old_instance.user.username}/{filename}'
 
 class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
   avatar = models.ImageField(default='default.jpg', upload_to=custom_upload_to)
   location = models.CharField(max_length=256, default="", blank=True, null=True)
   bio = models.TextField(default="", blank=True, null=True)
