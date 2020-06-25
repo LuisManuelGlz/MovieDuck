@@ -19,6 +19,17 @@ urlpatterns = [
         views.CarouselRecentReviews.as_view(),
         name="newreviews_carousel"
         ),
+    # Movie details page
+    path( # Normal movie details page
+        "<int:pk>",
+        views.MovieDetail.as_view(),
+        name="movie_details"
+        ),
+    path( # Movie details page focused on user's just created review
+        "<int:pk>#review<int:review_pk>",
+        views.MovieDetail.as_view(),
+        name="movie_details"
+        ),
     ##########
     # Review interaction
     path( # Toggle like/unlike on a review
@@ -36,17 +47,7 @@ urlpatterns = [
 ]
 
 """
-# Movie details page
-path( # Normal movie details page
-    "<int:pk>",
-    views.MovieDetails.as_view(),
-    name="movie_details"
-    ),
-path( # Movie details page focused on user's just created review
-    "<int:pk>#review<int:review_pk>",
-    views.MovieDetails.as_view(),
-    name="movie_details"
-    ),
+
 # Review interaction
 path( # Create a review
     "<int:movie_pk>/reviews/create",

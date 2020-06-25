@@ -164,6 +164,17 @@ class Review(MetaData):
         return self.likes.count()
     comments = GenericRelation(Comment, related_query_name="original_post")
     # RELATED URLS
+    @property # Movie details page
+    def movie_details_page_url(self):
+        return reverse_lazy(
+            "movies:movie_details", kwargs = {"pk": self.movie.pk}
+            )
+    @property # Movie details page focused on this review
+    def movie_details_page_focused_url(self):
+        return reverse_lazy(
+            "movies:movie_details",
+            wkargs = {"pk": self.movie.pk, "review_pk": self.pk}
+            )
     @property # Toggle like/unlike on review
     def like_url(self):
         return reverse_lazy("movies:review_like", kwargs = {"pk": self.pk})

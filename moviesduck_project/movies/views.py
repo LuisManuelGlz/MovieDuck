@@ -40,8 +40,9 @@ class CarouselRecentReviews(ReviewListMixin):
     queryset = Review.objects.all()[:10]
 
 ########## MOVIE DETAILS ##########
-class MovieDetails(DetailView):
+class MovieDetail(DetailView):
     model = Movie
+    template_name = "movies/movie_detail.html"
 
 ########## REVIEWS, COMMENTS, & LIKES ##########
 ### Reviews
