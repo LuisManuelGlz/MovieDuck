@@ -1,3 +1,4 @@
+{% load usercontent_interact %}
 <div id="review{{ review.pk }}" class="media">
 	<img
 		class="mr-3"
@@ -15,8 +16,8 @@
 		<div>
 			{% if user.is_authenticated %}
 			<button
-				class="btn btn-{% if review|liked_by:user %}{% else %}{% endif %}"
-				
+				class="btn btn-{% if review|liked_by:user %}primary{% else %}secondary{% endif %}"
+				action="fetch('{{ review.like_url }}')"
 			>
 			</button>
 			{% else %}
