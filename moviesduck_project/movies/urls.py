@@ -4,7 +4,6 @@ from django.views.generic import TemplateView # temporal import
 
 app_name = "movies"
 urlpatterns = [
-    path("<int:pk>/", views.MovieDetail.as_view(), name="movie_detail"),
     path("rev-detail/", TemplateView.as_view(template_name="movies/review_detail.html"), name="review_detail"),
     # Carousel-based lists
     path( # Newest movies
@@ -22,16 +21,21 @@ urlpatterns = [
         views.CarouselRecentReviews.as_view(),
         name="newreviews_carousel"
         ),
+    path(
+        "",
+        views.MovieList.as_view(),
+        name="movie_list"
+        ),
     # Movie details page
     path( # Normal movie details page
-        "<int:pk>",
+        "<int:pk>/",
         views.MovieDetail.as_view(),
-        name="movie_details"
+        name="movie_detail"
         ),
     path( # Movie details page focused on user's just created review
         "<int:pk>#review<int:review_pk>",
         views.MovieDetail.as_view(),
-        name="movie_details"
+        name="movie_detail"
         ),
     ##########
     # Review interaction
