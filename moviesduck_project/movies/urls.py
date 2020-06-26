@@ -4,7 +4,6 @@ from django.views.generic import TemplateView # temporal import
 
 app_name = "movies"
 urlpatterns = [
-    path("<int:pk>/", views.MovieDetail.as_view(), name="movie_detail"),
     path("rev-detail/", TemplateView.as_view(template_name="movies/review_detail.html"), name="review_detail"),
     # Carousel-based lists
     path( # Newest movies
@@ -26,58 +25,43 @@ urlpatterns = [
     path( # Normal movie details page
         "<int:pk>",
         views.MovieDetail.as_view(),
-        name="movie_details"
+        name="movie_detail"
         ),
-    path( # Movie details page focused on user's just created review
-        "<int:pk>#review<int:review_pk>",
-        views.MovieDetail.as_view(),
-        name="movie_details"
-        ),
-    ##########
     # Review interaction
+    path( # Create a review
+        "<int:movie_pk>/reviews/create",
+        views.CreateReview.as_view(),
+        name="review_create"
+        ),
+    path( # Delete a review
+        "<int:movie_pk>/reviews/<int:pk>/delete",
+        views.DeleteReview.as_view(),
+        name="review_delete"
+        ),
     path( # Toggle like/unlike on a review
         "reviews/<int:pk>/like",
         views.toggle_like_review,
         name="review_like"
         ),
-    ##########
+    path( # Respond to a review
+        "<int:movie_pk>/reviews/<int:review_pk>/respond",
+        views.RespondToReview.as_view(),
+        name="review_respond"
+        ),
     # Comment interaction
     path( # Toggle like/unlike on a comment
         "comments/<int:pk>/like",
         views.toggle_like_comment,
         name="comment_like"
         ),
+    path( # Delete a comment
+            "<int:movie_pk>/comments/<int:pk>/delete",
+            views.DeleteComment.as_view(),
+            name="comment_delete"
+        ),
+    path( # Respond to a comment
+        "<int:movie_pk>/comments/<int:comment_pk>/respond",
+        views.RespondToComment.as_view(),
+        name="comment_respond"
+        ),
 ]
-
-"""
-
-# Review interaction
-path( # Create a review
-    "<int:movie_pk>/reviews/create",
-    views.CreateReview.as_view(),
-    name="review_create"
-    ),
-path( # Delete a review
-    "<int:movie_pk>/reviews/<int:pk>/delete",
-    views.DeleteReview.as_view(),
-    name="review_delete"
-    ),
-    
-path( # Respond to a review
-    "<int:movie_pk>/reviews/<int:review_pk>/respond",
-    views.RespondToReview.as_view(),
-    name="review_respond"
-    ),
-
-path( # Delete a comment
-        "<int:movie_pk>/comments/<int:pk>/delete",
-        views.DeleteComment.as_view(),
-        name="comment_delete"
-    )
-
-path( # Respond to a comment
-    "<int:movie_pk>/comments/<int:comment_pk>/respond",
-    views.RespondToComment.as_view(),
-    name="comment_respond"
-    ),
-"""

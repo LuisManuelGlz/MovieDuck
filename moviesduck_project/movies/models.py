@@ -89,7 +89,7 @@ class Movie(MetaData):
     # RELATED URLS
     @property # Details page
     def details_page_url(self):
-        return reverse_lazy("movies:movie_details", kwargs = {"pk": self.pk})
+        return reverse_lazy("movies:movie_detail", kwargs = {"pk": self.pk})
     @property # Create a review of this movie
     def create_review_url(self):
         return reverse_lazy(
@@ -114,6 +114,9 @@ class Like(MetaData):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
+    class Meta:
+        # Single like per item per user!
+        unique_together = ["content_type", "object_id", "create_user"]
     def __str__(self):
         return f"A like from {self.create_user.username} " \
                 f"on {self.content_type} #{self.object_id}"
@@ -121,6 +124,9 @@ class Like(MetaData):
 class Comment(MetaData):
     body = models.TextField(max_length=128)
     likes = GenericRelation(Like, related_query_name="liked_item")
+    @property
+    def like_count(self):
+        return self.likes.count()
     responses = GenericRelation("Comment")
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -165,16 +171,15 @@ class Review(MetaData):
     comments = GenericRelation(Comment, related_query_name="original_post")
     # RELATED URLS
     @property # Movie details page
-    def movie_details_page_url(self):
+    def movie_detail_page_url(self):
         return reverse_lazy(
-            "movies:movie_details", kwargs = {"pk": self.movie.pk}
+            "movies:movie_detail", kwargs = {"pk": self.movie.pk}
             )
     @property # Movie details page focused on this review
-    def movie_details_page_focused_url(self):
+    def movie_detail_page_focused_url(self):
         return reverse_lazy(
-            "movies:movie_details",
-            wkargs = {"pk": self.movie.pk, "review_pk": self.pk}
-            )
+            "movies:movie_detail", kwargs = {"pk": self.movie.pk}
+            ) + f"#review{self.pk}"
     @property # Toggle like/unlike on review
     def like_url(self):
         return reverse_lazy("movies:review_like", kwargs = {"pk": self.pk})
@@ -191,6 +196,9 @@ class Review(MetaData):
             kwargs = {"pk": self.pk, "movie_pk": self.movie.pk}
             )
     class Meta:
+        # Only one review per movie per user!
+        unique_together = ["create_user", "movie"]
+        # Order by most recent
         ordering = ["-create_time"]
     def __str__(self):
         return f"Review #{self.pk} of {self.movie}"

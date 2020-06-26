@@ -1,3 +1,4 @@
+{% load usercontent_interact %}
 <div id="comment{{ comment.pk }}" class="media">
 	<img
 		class="mr-3"
@@ -6,9 +7,32 @@
 		style="width:50px;height:auto;"
 	>
 	<div class="media-body">
-		<h4>{{ comment.create_user.username }}</h4>
+		<h4 class="mt-0">{{ comment.create_user.username }}</h4>
 		<p>{{ comment.body }}</p>
-		<div><!-- INTERACTION BUTTONS SHOULD GO HERE --></div>
+		<div class="my-3">
+			{% if user.is_authenticated %} {# Mostrar interacciones solamente si hay inicio de sesión #}
+				{% if user != comment.create_user %} {# Mostrar like si el contenido no es del mismo usuario #}
+			<button
+				id="like-comment{{ comment.pk }}"
+				class="btn btn-{% if comment|liked_by:user %}primary{% else %}secondary{% endif %}"
+				onclick="fetch('{{ comment.like_url }}').then(res => res.text()).then(data => toggle_like_status(data))"
+			>
+				<i class="fas fa-thumbs-up"></i>
+				<span>{{ comment.like_count }}</span>
+			</button>
+				{% endif %}
+			<a href="{{ comment.respond_url }}" class="btn btn-info">
+				<i class="fas fa-reply"></i>
+				Reply
+			</a>
+				{% if user == comment.create_user %}
+			<a href="{{ comment.delete_url }}" class="btn btn-danger">
+				<i class="fas fa-times"></i>
+				Delete
+			</a>
+				{% endif %}
+			{% endif %}
+		</div class="">
 		{% for comment in comment.responses.all %}
 			{% include 'movies/comment.html' %}
 		{% endfor %}

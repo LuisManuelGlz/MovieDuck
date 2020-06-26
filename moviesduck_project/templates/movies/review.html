@@ -1,4 +1,5 @@
 {% load usercontent_interact %}
+<hr>
 <div id="review{{ review.pk }}" class="media">
 	<img
 		class="mr-3"
@@ -13,15 +14,30 @@
 		</h2>
 		<p class="lead">"{{ review.summary }}"</p>
 		<p>{{ review.body }}</p>
-		<div>
-			{% if user.is_authenticated %}
+		<div class="my-3">
+			{% if user.is_authenticated %} {# Mostrar interacciones solamente si hay inicio de sesión #}
+				{% if user != review.create_user %} {# Mostrar like si el contenido no es del mismo usuario #}
 			<button
+				id="like-review{{ review.pk }}"
 				class="btn btn-{% if review|liked_by:user %}primary{% else %}secondary{% endif %}"
-				action="fetch('{{ review.like_url }}')"
+				onclick="fetch('{{ review.like_url }}').then(res => res.text()).then(data => toggle_like_status(data))"
 			>
+				<i class="fas fa-thumbs-up"></i>
+				<span>{{ review.like_count }}</span>
 			</button>
+				{% endif %}
+			<a href="{{ review.respond_url }}" class="btn btn-info">
+				<i class="fas fa-reply"></i>
+				Reply
+			</a>
+				{% if user == review.create_user %}
+			<a href="{{ review.delete_url }}" class="btn btn-danger">
+				<i class="fas fa-times"></i>
+				Delete
+			</a>
+				{% endif %}
 			{% else %}
-			<a>Log in or sign up to reply.</a>
+			<p><a href="{% url 'login' %}">Log in</a> or <a href="{% url 'registration:signup' %}">sign up</a> to reply.</p>
 			{% endif %}
 		</div>
 		{% for comment in review.comments.all %}

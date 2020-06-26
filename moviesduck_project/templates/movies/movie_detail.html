@@ -1,42 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load usercontent_interact %}
 
 {% block title %}Details for {{ movie }}{% endblock %}
 
 {% block content %}
   <div class="container">
-    <!-- Movie Screenshots -->
-    <div id="movieDetailCarousel" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        {% for screenshot in movie.screenshots.all %}
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
-          </div>
-        {% endfor %}
-      </div>
-      <a class="carousel-control-prev" href="#movieDetailCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#movieDetailCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    <!-- End of Movie Screenshots -->
+
 
     <!-- Movie Info Container -->
     <div class="row">
 
       <!-- Movie Info -->
-      <div class="col-12 col-md-6">
+      <div class="col-12">
         <div class="row">
           <h1 class="text-white">{{ movie.title }}</h1>
           <div class="mt-2 ml-4">
             <span class="badge badge-secondary">{{ movie.rating }}</span>
           </div>
         </div>
-
+        <!-- Movie Screenshots -->
+        <div id="movieDetailCarousel" class="carousel slide mt-3" data-ride="carousel">
+          <div class="carousel-inner">
+            {% for screenshot in movie.screenshots.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
+              </div>
+            {% endfor %}
+          </div>
+          <a class="carousel-control-prev" href="#movieDetailCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#movieDetailCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        <!-- End of Movie Screenshots -->
         <div class="row mt-3">
           <div class="col-12 col-lg-6 pl-0">
             <h4 class="text-white mt-2">Summary</h4>
@@ -77,8 +78,21 @@
       <!-- End of Movie Info -->
 
       <!-- Reviews -->
-      <div class="col-12 p-0">
+      <div class="col-12 p-0 mt-5">
         <h2 class="text-white">Reviews</h2>
+        {% if movie|already_reviewed_by:user is not True %}
+        <hr>
+        <h4>Got something to say? Write your own review!</h4>
+        <form action="{{ movie.create_review_url }}" method="post">
+          {% csrf_token %}
+          {{ view.review_form.as_p }}
+          
+          <button class="btn btn-success" type="submit">
+            <i class="fas fa-paper-plane"></i>
+            Submit Review
+          </button>
+        </form>
+        {% endif %}
         {% for review in movie.reviews.all %}
           {% include 'movies/review.html' %}
         {% endfor %}
@@ -96,4 +110,17 @@
     </div>
     <!-- End of Movie Info Container -->
   </div>
+  <script type="text/javascript">
+    const toggle_like_status = id => {
+      const like_button = document.getElementById(id);
+      const like_button_text = like_button.getElementsByTagName("span")[0];
+      const like_count = parseInt(like_button_text.innerHTML)
+      like_button.classList.toggle("btn-primary");
+      like_button.classList.toggle("btn-secondary");
+      if (like_button.classList.contains("btn-primary"))
+        like_button_text.innerHTML = like_count + 1;
+      else
+        like_button_text.innerHTML = like_count - 1;
+    }
+  </script>
 {% endblock %}
