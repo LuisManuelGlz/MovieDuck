@@ -26,17 +26,22 @@
 				<span>{{ review.like_count }}</span>
 			</button>
 				{% endif %}
+			<a href="{{ review.respond_url }}" class="btn btn-info">
+				<i class="fas fa-reply"></i>
+				Reply
+			</a>
 				{% if user == review.create_user %}
 			<a href="{{ review.delete_url }}" class="btn btn-danger">
 				<i class="fas fa-times"></i>
 				Delete
 			</a>
 				{% endif %}
+			{% else %}
+			<p><a href="{% url 'login' %}">Log in</a> or <a href="{% url 'registration:signup' %}">sign up</a> to reply.</p>
 			{% endif %}
-			<a href="{{ review.respond_url }}" class="btn btn-info">
-				<i class="fas fa-comment-alt"></i>
-				See replies...
-			</a>
 		</div>
+		{% for comment in review.comments.all %}
+			{% include 'movies/comment.html' %}
+		{% endfor %}
 	</div>
 </div>
