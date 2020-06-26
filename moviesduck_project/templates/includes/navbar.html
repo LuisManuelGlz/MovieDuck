@@ -14,7 +14,7 @@
           </a>
         </li>
         {% if user.is_authenticated %}
-          <li class="nav-item {% if request.resolver_match.view_name == 'comming soon xd' %}active{% endif %}">
+          <li class="nav-item {% if request.resolver_match.view_name == 'movies:movie_list' %}active{% endif %}">
             <a class="nav-link" href="{% url 'movies:movie_list' %}">
               <i class="fas fa-fw fa-ticket-alt"></i>
               Movies
