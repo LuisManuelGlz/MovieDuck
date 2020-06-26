@@ -21,8 +21,27 @@
         </div>
         <div class="row mt-3">
           <div class="col-12 col-lg-6 pl-0">
+
+            <!-- SUMMARY, GENERES, AND POSTER -->
+            <div class="media">
+              <img
+                class="mr-3"
+                src="{{ movie.poster.url }}"
+                alt="Poster for {{ movie }}"
+                style="width:200px;height:auto;"
+              >
+              <div class="media-body">
+                <h4 class="text-white">Summary</h4>
+                <p>{{ movie.summary }}</p>
+                <h4 class="text-white">Generes</h4>
+                {% for genere in movie.generes.all %}
+                  <span>{{genere.name}}</span>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            
             <!-- Movie Screenshots -->
-            <h4 class="text-white">Screenshots</h4>
+            <h4 class="text-white mt-2">Screenshots</h4>
             <div id="movieDetailCarousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 {% for screenshot in movie.screenshots.all %}
@@ -41,16 +60,9 @@
               </a>
             </div>
             <!-- End of Movie Screenshots -->
-            <h4 class="text-white mt-2">Summary</h4>
-            <p>{{ movie.summary }}</p>
-
-            <h4 class="text-white mt-2">Generes</h4>
-            {% for genere in movie.generes.all %}
-              <span>{{genere.name}}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
 
             <!-- PEOPLE -->
-            <div style="display:flex;flex-wrap:wrap;">
+            <div style="display:flex;flex-wrap:wrap;justify-content">
               <div class="mr-5">
                 <h4 class="text-white mt-2">Director</h4>
                 <div style="display:flex;flex-wrap:wrap;">
