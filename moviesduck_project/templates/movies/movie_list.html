@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Movies List{% endblock %}
+
+{% block content %}
+  {% for movie in movies %}
+    <div class="media mt-2">
+      <img
+        class="mr-3 h-50 d-inline-block"
+        src="{{ movie.poster.url }}"
+        alt="{{ movie }}-poster"
+        style="max-height: 280px;"
+      >
+      <div class="media-body">
+        <h4 class="mt-0 text-white">{{ movie }}</h4>
+        <p>{{ movie.summary }}</p>
+        <a class="btn btn-primary" href="{% url 'movies:movie_detail' movie.id %}">Read more</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

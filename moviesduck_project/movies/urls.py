@@ -21,9 +21,14 @@ urlpatterns = [
         views.CarouselRecentReviews.as_view(),
         name="newreviews_carousel"
         ),
+    path(
+        "",
+        views.MovieList.as_view(),
+        name="movie_list"
+        ),
     # Movie details page
     path( # Normal movie details page
-        "<int:pk>",
+        "<int:pk>/",
         views.MovieDetail.as_view(),
         name="movie_detail"
         ),

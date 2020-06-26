@@ -40,8 +40,13 @@ class CarouselRecentReviews(ReviewListMixin):
     template_name = "movies/carousel_review_list.html"
     queryset = Review.objects.all()[:10]
 
+########## MOVIE LIST ##########
+class MovieList(LoginRequiredMixin, ListView):
+    model = Movie
+    context_object_name = "movies"
+
 ########## MOVIE DETAILS ##########
-class MovieDetail(DetailView):
+class MovieDetail(LoginRequiredMixin, DetailView):
     model = Movie
     review_form = ReviewForm
     template_name = "movies/movie_detail.html"

@@ -14,7 +14,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item {% if request.resolver_match.view_name == 'home:home' %}active{% endif %}">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="{% url 'movies:movie_list' %}">
       <i class="fas fa-fw fa-ticket-alt"></i>
       <span>Movies</span></a>
   </li>

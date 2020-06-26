@@ -8,23 +8,32 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item {% if request.resolver_match.view_name == 'home:home' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'home:home' %}">Home</a>
-        </li>
-        <li class="nav-item {% if request.resolver_match.view_name == 'home:about' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'home:about' %}">About</a>
+          <a class="nav-link" href="{% url 'home:home' %}">
+            <i class="fas fa-fw fa-home"></i>
+            Home
+          </a>
         </li>
         {% if user.is_authenticated %}
           <li class="nav-item {% if request.resolver_match.view_name == 'comming soon xd' %}active{% endif %}">
-            <a class="nav-link" href="#">Movies (comming soon :D)</a>
+            <a class="nav-link" href="{% url 'movies:movie_list' %}">
+              <i class="fas fa-fw fa-ticket-alt"></i>
+              Movies
+            </a>
           </li>
         {% endif %}
+        <li class="nav-item {% if request.resolver_match.view_name == 'home:about' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'home:about' %}">
+            <i class="fas fa-fw fa-address-card"></i>
+            About
+          </a>
+        </li>
       </ul>
       {% if user.is_authenticated %}
         <ul class="navbar-nav">
           <!-- Nav Item - User Information -->
           <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username }}</span>
+              <span class="mr-2 d-none d-lg-inline text-white small font-weight-bolder">{{ user.username }}</span>
               <img
                 class="img-profile rounded-circle"
                 width="32px"

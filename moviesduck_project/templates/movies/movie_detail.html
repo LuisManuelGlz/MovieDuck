@@ -5,8 +5,29 @@
 {% block title %}Details for {{ movie }}{% endblock %}
 
 {% block content %}
-  <div class="container">
 
+<div class="container">
+  <!-- Movie Screenshots -->
+    <div class="row">
+      <div id="movieDetailCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          {% for screenshot in movie.screenshots.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
+            </div>
+          {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#movieDetailCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#movieDetailCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <!-- End of Movie Screenshots -->
 
     <!-- Movie Info Container -->
     <div class="row">
@@ -78,7 +99,7 @@
       <!-- End of Movie Info -->
 
       <!-- Reviews -->
-      <div class="col-12 p-0 mt-5">
+      <div class="col-12 col-lg-6 p-0">
         <h2 class="text-white">Reviews</h2>
         {% if movie|already_reviewed_by:user is not True %}
         <hr>
@@ -95,6 +116,8 @@
         {% endif %}
         {% for review in movie.reviews.all %}
           {% include 'movies/review.html' %}
+        {% empty %}
+          No reviews yet
         {% endfor %}
         <!-- REPLACED BY REVIEW TEMPLATE
         <div class="media">
