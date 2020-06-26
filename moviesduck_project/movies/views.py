@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.db.models import Prefetch
 from .models import Movie, Review, Comment, Like
-from .forms import ReviewForm
+from .forms import ReviewForm, CommentForm
 from datetime import timedelta
 from django.urls import reverse_lazy
 from django.utils.timezone import localtime
@@ -60,6 +60,12 @@ class CommentMixin(LoginRequiredMixin):
     model = Comment
 
 ### Reviews
+# Review detail
+class ReviewDetail(DetailView):
+    model = Review
+    template_name = "movies/review_detail.html"
+    comment_form = CommentForm
+
 # Create a review for a movie
 class CreateReview(ReviewMixin, CreateView):
     http_method_names = ["post"]
@@ -79,6 +85,8 @@ class CreateReview(ReviewMixin, CreateView):
 
 # Delete a review
 class DeleteReview(ReviewMixin, DeleteView):
+    http_method_names = ["post"]
+
     # Return to movie details page
     def get_success_url(self):
         return reverse_lazy(
@@ -99,7 +107,25 @@ def toggle_like_review(request, pk):
 
 # Respond to a review
 class RespondToReview(CommentMixin, CreateView):
-    pass
+    http_method_names = ["post"]
+    form_class = CommentForm
+
+    # Reload review details page focused on just made comment
+    def get_success_url(self):
+        return reverse_lazy(
+            "movies:review_detail",
+            kwargs = {
+                "movie_pk": self.kwargs["movie_pk"],
+                "pk": self.kwargs["review_pk"]
+                }
+            ) + f"#comment{self.object.pk}"
+
+    # Add user and review from URL arguments
+    def form_valid(self, form):
+        form.instance.create_user = self.request.user
+        form.instance.content_type = ContentType.objects.get_for_model(Review)
+        form.instance.object_id = self.kwargs["review_pk"]
+        return super().form_valid(form)
 
 ### Comments
 
@@ -116,8 +142,36 @@ def toggle_like_comment(request, pk):
 
 # Delete a comment
 class DeleteComment(CommentMixin, DeleteView):
-    pass
+    http_method_names = ["post"]
+
+    # Return to review details page
+    def get_success_url(self):
+        return reverse_lazy(
+            "movies:review_detail",
+            kwargs = {
+                "movie_pk": self.kwargs["movie_pk"],
+                "pk": self.kwargs["review_pk"]
+                }
+            )
 
 # Respond to a comment
 class RespondToComment(CommentMixin, CreateView):
-    pass
+    http_method_names = ["post"]
+    form_class = CommentForm
+
+    # Reload review details page focused on just made comment
+    def get_success_url(self):
+        return reverse_lazy(
+            "movies:review_detail",
+            kwargs = {
+                "movie_pk": self.kwargs["movie_pk"],
+                "pk": self.kwargs["review_pk"]
+                }
+            ) + f"#comment{self.object.pk}"
+
+    # Add user and parent comment from URL arguments
+    def form_valid(self, form):
+        form.instance.create_user = self.request.user
+        form.instance.content_type = ContentType.objects.get_for_model(Comment)
+        form.instance.object_id = self.kwargs["comment_pk"]
+        return super().form_valid(form)

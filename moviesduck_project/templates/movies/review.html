@@ -15,25 +15,7 @@
 		<p class="lead">"{{ review.summary }}"</p>
 		<p>{{ review.body }}</p>
 		<div class="my-3">
-			{% if user.is_authenticated %} {# Mostrar interacciones solamente si hay inicio de sesión #}
-				{% if user != review.create_user %} {# Mostrar like si el contenido no es del mismo usuario #}
-			<button
-				id="like-review{{ review.pk }}"
-				class="btn btn-{% if review|liked_by:user %}primary{% else %}secondary{% endif %}"
-				onclick="fetch('{{ review.like_url }}').then(res => res.text()).then(data => toggle_like_status(data))"
-			>
-				<i class="fas fa-thumbs-up"></i>
-				<span>{{ review.like_count }}</span>
-			</button>
-				{% endif %}
-				{% if user == review.create_user %}
-			<a href="{{ review.delete_url }}" class="btn btn-danger">
-				<i class="fas fa-times"></i>
-				Delete
-			</a>
-				{% endif %}
-			{% endif %}
-			<a href="{{ review.respond_url }}" class="btn btn-info">
+			<a href="{{ review.review_detail_page_url }}" class="btn btn-link">
 				<i class="fas fa-comment-alt"></i>
 				See replies...
 			</a>

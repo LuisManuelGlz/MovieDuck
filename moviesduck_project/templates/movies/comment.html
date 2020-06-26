@@ -9,6 +9,7 @@
 	<div class="media-body">
 		<h4 class="mt-0">{{ comment.create_user.username }}</h4>
 		<p>{{ comment.body }}</p>
+		<!-- INTERACTION BUTTONS -->
 		<div class="my-3">
 			{% if user.is_authenticated %} {# Mostrar interacciones solamente si hay inicio de sesión #}
 				{% if user != comment.create_user %} {# Mostrar like si el contenido no es del mismo usuario #}
@@ -21,18 +22,51 @@
 				<span>{{ comment.like_count }}</span>
 			</button>
 				{% endif %}
-			<a href="{{ comment.respond_url }}" class="btn btn-info">
+			<button onclick="toggle_hide('replybox-comment{{ comment.pk }}')" class="btn btn-info">
 				<i class="fas fa-reply"></i>
 				Reply
-			</a>
+			</button>
 				{% if user == comment.create_user %}
-			<a href="{{ comment.delete_url }}" class="btn btn-danger">
+			<button onclick="toggle_hide('delete-comment{{ comment.pk }}')" class="btn btn-danger">
 				<i class="fas fa-times"></i>
 				Delete
-			</a>
+			</button>
+				{% endif %}
+				{% if user != comment.create_user and user.is_staff %}
+			<button onclick="toggle_hide('delete-comment{{ comment.pk }}')" class="btn btn-warning">
+				<i class="fas fa-times"></i>
+				Delete as Admin
+			</button>
 				{% endif %}
 			{% endif %}
-		</div class="">
+		</div>
+		<!-- REPLY BOX -->
+		<form id="replybox-comment{{ comment.pk }}" class="d-none" action="{{ comment.respond_url }}" method="post">
+			<h4 class="text-white">Reply</h4>
+			{% csrf_token %}
+			{{ view.comment_form.as_p }}
+			<button class="btn btn-success mb-3" type="submit">
+				<i class="fas fa-paper-plane"></i>
+				Send Reply
+			</button>
+			<button onclick="toggle_hide('replybox-comment{{ comment.pk }}')" class="btn btn-info mb-3" type="button">
+				<i class="fas fa-undo"></i>
+				Cancel
+			</button>
+		</form>
+		<!-- CONFIRM DELETION -->
+		<form id="delete-comment{{ comment.pk }}" class="d-none" action="{{ comment.delete_url }}" method="post">
+			{% csrf_token %}
+			<h4 class="text-white">¿Do you <i>really</i> want to delete this comment?</h4>
+			<button onclick="toggle_hide('delete-comment{{ comment.pk }}')" class="btn btn-info my-3" type="button">
+				<i class="fas fa-undo"></i>
+				Cancel
+			</button>
+			<button class="btn btn-danger my-3" type="submit">
+				<i class="fas fa-times"></i>
+				Delete
+			</button>
+		</form>
 		{% for comment in comment.responses.all %}
 			{% include 'movies/comment.html' %}
 		{% endfor %}

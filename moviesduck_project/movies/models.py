@@ -121,9 +121,15 @@ class Like(MetaData):
         return f"A like from {self.create_user.username} " \
                 f"on {self.content_type} #{self.object_id}"
 
+def find_original_post(comment):
+    if comment.content_type == ContentType.objects.get_for_model(Review):
+        return comment.content_object
+    else:
+        return find_original_post(comment.content_object)
+
 class Comment(MetaData):
     body = models.TextField(max_length=128)
-    likes = GenericRelation(Like, related_query_name="liked_item")
+    likes = GenericRelation(Like)
     @property
     def like_count(self):
         return self.likes.count()
@@ -132,9 +138,9 @@ class Comment(MetaData):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
     # RELATED URLS
-    @property # Find the id of the movie that the original review is of
-    def movie_pk(self):
-        return self.original_post.get().movie.pk
+    @property # Find the original review
+    def original_post(self):
+        return find_original_post(self)
     @property # Toggle like/unlike on comment
     def like_url(self):
         return reverse_lazy("movies:comment_like", kwargs = {"pk": self.pk})
@@ -142,13 +148,21 @@ class Comment(MetaData):
     def respond_url(self):
         return reverse_lazy(
             "movies:comment_respond",
-            kwargs = {"movie_pk": self.movie_pk, "comment_pk": self.pk}
+            kwargs = {
+                "movie_pk": self.original_post.movie.pk,
+                "review_pk": self.original_post.pk,
+                "comment_pk": self.pk
+                }
             )
     @property # Delete a comment
     def delete_url(self):
         return reverse_lazy(
             "movies:comment_delete",
-            kwargs = {"movie_pk": self.movie_pk, "pk": self.pk}
+            kwargs = {
+                "movie_pk": self.original_post.movie.pk,
+                "review_pk": self.original_post.pk,
+                "pk": self.pk
+                }
             )
     def __str__(self):
         return f"Response #{self.pk} to {self.content_type} #{self.object_id}"
@@ -164,11 +178,11 @@ class Review(MetaData):
             )
     summary = models.TextField(max_length=128)
     body = models.TextField()
-    likes = GenericRelation(Like, related_query_name="liked_item")
+    likes = GenericRelation(Like)
     @property
     def like_count(self):
         return self.likes.count()
-    comments = GenericRelation(Comment, related_query_name="original_post")
+    comments = GenericRelation(Comment)
     # RELATED URLS
     @property # Movie details page
     def movie_detail_page_url(self):
@@ -180,6 +194,12 @@ class Review(MetaData):
         return reverse_lazy(
             "movies:movie_detail", kwargs = {"pk": self.movie.pk}
             ) + f"#review{self.pk}"
+    @property # Review details page
+    def review_detail_page_url(self):
+        return reverse_lazy(
+            "movies:review_detail",
+            kwargs = {"movie_pk": self.movie.pk, "pk": self.pk}
+            )
     @property # Toggle like/unlike on review
     def like_url(self):
         return reverse_lazy("movies:review_like", kwargs = {"pk": self.pk})

@@ -4,7 +4,6 @@ from django.views.generic import TemplateView # temporal import
 
 app_name = "movies"
 urlpatterns = [
-    path("rev-detail/", TemplateView.as_view(template_name="movies/review_detail.html"), name="review_detail"),
     # Carousel-based lists
     path( # Newest movies
         "newest/carousel/",
@@ -33,6 +32,11 @@ urlpatterns = [
         name="movie_detail"
         ),
     # Review interaction
+    path( # Review details page
+        "<int:movie_pk>/reviews/<int:pk>",
+        views.ReviewDetail.as_view(),
+        name="review_detail"
+        ),
     path( # Create a review
         "<int:movie_pk>/reviews/create",
         views.CreateReview.as_view(),
@@ -60,12 +64,12 @@ urlpatterns = [
         name="comment_like"
         ),
     path( # Delete a comment
-            "<int:movie_pk>/comments/<int:pk>/delete",
-            views.DeleteComment.as_view(),
-            name="comment_delete"
+        "<int:movie_pk>/reviews/<int:review_pk>/comments/<int:pk>/delete",
+        views.DeleteComment.as_view(),
+        name="comment_delete"
         ),
     path( # Respond to a comment
-        "<int:movie_pk>/comments/<int:comment_pk>/respond",
+        "<int:movie_pk>/reviews/<int:review_pk>/comments/<int:comment_pk>/respond",
         views.RespondToComment.as_view(),
         name="comment_respond"
         ),

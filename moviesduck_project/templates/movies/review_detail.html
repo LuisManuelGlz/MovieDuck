@@ -1,44 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Review Detail{% endblock %}
+{% block title %}Review Details{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row justify-content-space-between">
-      <div class="col-12 col-sm-6 col-md-3">
-        <h2 class="text-white">Review title</h2>
-      </div>
-      <div class="col-10 col-sm-6 col-md-7">
-        Score: 9/10
-      </div>
-      <div class="col-2 col-sm-12 col-md-2">
-        <button id="like" type="button" class="btn">
-          <i class="fas fa-thumbs-up"></i>
-          <span>3</span>
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid eius distinctio ipsum, similique aliquam, ut magnam vero ducimus ad asperiores perspiciatis blanditiis dolorem enim molestias, error iste repellat aperiam? Repellat.</p>
-    </div>
-    <div class="row mt-4">
-      <h4 class="text-white">Comments</h4>
-      <div class="media bg-gradient-primary border-primary">
-        <div class="media-body">
-          <div class="row">
-            <div class="col-12 col-md-10">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic expedita obcaecati explicabo nulla aliquid quisquam minus porro suscipit ad voluptatem esse quis, eum nostrum perspiciatis aperiam optio placeat doloremque dolore?
-            </div>
-            <div class="col-12 col-md-2">
-              <button id="like" type="button" class="btn text-primary">
-                <i class="fas fa-thumbs-up"></i>
-                <span>1</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <h1 class="text-white">Review of {{ review.movie }}</h1>
+  <a href="{{ review.movie_detail_page_url }}" class="mb-3 btn btn-secondary">
+    <i class="fas fa-arrow-left"></i>
+    Return to Movie Page
+  </a>
+  {% include 'movies/review_with_comments.html' %}
+  <script type="text/javascript">
+    const toggle_like_status = id => {
+      const like_button = document.getElementById(id);
+      const like_button_text = like_button.getElementsByTagName("span")[0];
+      const like_count = parseInt(like_button_text.innerHTML)
+      like_button.classList.toggle("btn-primary");
+      like_button.classList.toggle("btn-secondary");
+      if (like_button.classList.contains("btn-primary"))
+        like_button_text.innerHTML = like_count + 1;
+      else
+        like_button_text.innerHTML = like_count - 1;
+    }
+    const toggle_hide = id => {
+      const element = document.getElementById(id);
+      element.classList.toggle("d-none")
+    }
+  </script>
 {% endblock %}

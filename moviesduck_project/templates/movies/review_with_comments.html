@@ -1,5 +1,4 @@
 {% load usercontent_interact %}
-<hr>
 <div id="review{{ review.pk }}" class="media">
 	<img
 		class="mr-3"
@@ -14,6 +13,7 @@
 		</h2>
 		<p class="lead">"{{ review.summary }}"</p>
 		<p>{{ review.body }}</p>
+		<!-- INTERACTION BUTTONS -->
 		<div class="my-3">
 			{% if user.is_authenticated %} {# Mostrar interacciones solamente si hay inicio de sesión #}
 				{% if user != review.create_user %} {# Mostrar like si el contenido no es del mismo usuario #}
@@ -26,20 +26,54 @@
 				<span>{{ review.like_count }}</span>
 			</button>
 				{% endif %}
-			<a href="{{ review.respond_url }}" class="btn btn-info">
+			<button onclick="toggle_hide('replybox-review{{ review.pk }}')" class="btn btn-info">
 				<i class="fas fa-reply"></i>
 				Reply
-			</a>
+			</button>
 				{% if user == review.create_user %}
-			<a href="{{ review.delete_url }}" class="btn btn-danger">
+			<button onclick="toggle_hide('delete-review{{ review.pk }}')" class="btn btn-danger">
 				<i class="fas fa-times"></i>
 				Delete
-			</a>
+			</button>
+				{% endif %}
+				{% if user != review.create_user and user.is_staff %}
+			<button onclick="toggle_hide('delete-review{{ review.pk }}')" class="btn btn-warning">
+				<i class="fas fa-times"></i>
+				Delete as Admin
+			</button>
 				{% endif %}
 			{% else %}
 			<p><a href="{% url 'login' %}">Log in</a> or <a href="{% url 'registration:signup' %}">sign up</a> to reply.</p>
 			{% endif %}
 		</div>
+		<!-- REPLY BOX -->
+		<form id="replybox-review{{ review.pk }}" class="d-none" action="{{ review.respond_url }}" method="post">
+			<h4 class="text-white">Reply</h4>
+			{% csrf_token %}
+			{{ view.comment_form.as_p }}
+			<button class="btn btn-success mb-3" type="submit">
+				<i class="fas fa-paper-plane"></i>
+				Send Reply
+			</button>
+			<button onclick="toggle_hide('replybox-review{{ review.pk }}')" class="btn btn-info mb-3" type="button">
+				<i class="fas fa-undo"></i>
+				Cancel
+			</button>
+		</form>
+		<!-- CONFIRM DELETION -->
+		<form id="delete-review{{ review.pk }}" class="d-none" action="{{ review.delete_url }}" method="post">
+			{% csrf_token %}
+			<h4 class="text-white">¿Do you <i>really</i> want to delete this review?</h4>
+			<button onclick="toggle_hide('delete-review{{ review.pk }}')" class="btn btn-info my-3" type="button">
+				<i class="fas fa-undo"></i>
+				Cancel
+			</button>
+			<button class="btn btn-danger my-3" type="submit">
+				<i class="fas fa-times"></i>
+				Delete
+			</button>
+		</form>
+		<!-- COMMENT THREAD -->
 		{% for comment in review.comments.all %}
 			{% include 'movies/comment.html' %}
 		{% endfor %}

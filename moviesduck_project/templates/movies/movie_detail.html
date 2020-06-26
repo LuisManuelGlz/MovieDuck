@@ -14,100 +14,119 @@
       <!-- Movie Info -->
       <div class="col-12">
         <div class="row">
-          <h1 class="text-white">{{ movie.title }}</h1>
-          <div class="mt-2 ml-4">
+          <h1 class="text-white">{{ movie }}</h1>
+          <div class="mt-2 ml-2">
             <span class="badge badge-secondary">{{ movie.rating }}</span>
           </div>
         </div>
-        <!-- Movie Screenshots -->
-        <div id="movieDetailCarousel" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            {% for screenshot in movie.screenshots.all %}
-              <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
-              </div>
-            {% endfor %}
-          </div>
-          <a class="carousel-control-prev" href="#movieDetailCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#movieDetailCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-        <!-- End of Movie Screenshots -->
         <div class="row mt-3">
           <div class="col-12 col-lg-6 pl-0">
+            <!-- Movie Screenshots -->
+            <h4 class="text-white">Screenshots</h4>
+            <div id="movieDetailCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for screenshot in movie.screenshots.all %}
+                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
+                  </div>
+                {% endfor %}
+              </div>
+              <a class="carousel-control-prev" href="#movieDetailCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#movieDetailCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <!-- End of Movie Screenshots -->
             <h4 class="text-white mt-2">Summary</h4>
             <p>{{ movie.summary }}</p>
-
-            <h4 class="text-white mt-2">Director</h4>
-            <p>{{ movie.director }}</p>
-
-            <h4 class="text-white mt-2">Producers</h4>
-            {% for producer in movie.producers.all %}
-              <span>{{producer.name}}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
-          </div>
-
-          <div class="col-12 col-lg-6 pl-0">
-            <h4 class="text-white mt-2">Writers</h4>
-            {% for writer in movie.writers.all %}
-              <span>{{writer.name}}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
 
             <h4 class="text-white mt-2">Generes</h4>
             {% for genere in movie.generes.all %}
               <span>{{genere.name}}</span>{% if not forloop.last %},{% endif %}
             {% endfor %}
 
-            <h4 class="text-white mt-2">Stars</h4>
-            {% for star in movie.stars.all %}
-              <span>{{star.name}}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
+            <!-- PEOPLE -->
+            <div style="display:flex;flex-wrap:wrap;">
+              <div class="mr-5">
+                <h4 class="text-white mt-2">Director</h4>
+                <div style="display:flex;flex-wrap:wrap;">
+                  {% with person=movie.director %}
+                    {% include 'movies/portrait.html' %}
+                  {% endwith %}
+                </div>
+              </div>
 
-            <h4 class="text-white mt-2">Cast</h4>
-            {% for actor in movie.cast.all %}
-              <span>{{actor.name}}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
+              <div class="mr-5">
+                <h4 class="text-white mt-2">Producers</h4>
+                <div style="display:flex;flex-wrap:wrap;">
+                  {% for person in movie.producers.all %}
+                    {% include 'movies/portrait.html' %}
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mr-5">
+                <h4 class="text-white mt-2">Writers</h4>
+                <div style="display:flex;flex-wrap:wrap;">            
+                  {% for person in movie.writers.all %}
+                    {% include 'movies/portrait.html' %}
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mr-5">
+                <h4 class="text-white mt-2">Stars</h4>
+                <div style="display:flex;flex-wrap:wrap;">
+                  {% for person in movie.stars.all %}
+                    {% include 'movies/portrait.html' %}
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mr-5">
+                <h4 class="text-white mt-2">Cast</h4>
+                <div style="display:flex;flex-wrap:wrap;">
+                  {% for person in movie.stars.all %}
+                    {% include 'movies/portrait.html' %}
+                  {% endfor %}
+                  {% for person in movie.cast.all %}
+                    {% include 'movies/portrait.html' %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- End of Movie Info -->
+
+          <!-- Reviews -->
+          <div class="col-12 col-lg-6 pl-0">
+            <h4 class="text-white">Reviews</h4>
+              {% if movie|already_reviewed_by:user is not True %}
+              <hr>
+              <h4>Got something to say? Write your own review!</h4>
+              <form action="{{ movie.create_review_url }}" method="post">
+                {% csrf_token %}
+                {{ view.review_form.as_p }}
+                <button class="btn btn-success" type="submit">
+                  <i class="fas fa-paper-plane"></i>
+                  Submit Review
+                </button>
+              </form>
+              {% endif %}
+              {% for review in movie.reviews.all %}
+                {% include 'movies/review.html' %}
+              {% empty %}
+                <hr>
+                <h4 class="my-3">No reviews yet!</h4>
+              {% endfor %}
+          </div>
+          <!-- End of Reviews -->
         </div>
       </div>
-      <!-- End of Movie Info -->
-
-      <!-- Reviews -->
-      <div class="col-12 col-lg-6 p-0">
-        <h2 class="text-white">Reviews</h2>
-        {% if movie|already_reviewed_by:user is not True %}
-        <hr>
-        <h4>Got something to say? Write your own review!</h4>
-        <form action="{{ movie.create_review_url }}" method="post">
-          {% csrf_token %}
-          {{ view.review_form.as_p }}
-          
-          <button class="btn btn-success" type="submit">
-            <i class="fas fa-paper-plane"></i>
-            Submit Review
-          </button>
-        </form>
-        {% endif %}
-        {% for review in movie.reviews.all %}
-          {% include 'movies/review.html' %}
-        {% empty %}
-          No reviews yet
-        {% endfor %}
-        <!-- REPLACED BY REVIEW TEMPLATE
-        <div class="media">
-          <div class="media-body">
-            <h5 class="mt-0 text-white">Summary</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-        -->
-      </div>
-      <!-- End of Reviews -->
 
     </div>
     <!-- End of Movie Info Container -->
