@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
   UserCreationFormWithEmail,
@@ -13,6 +14,11 @@ class Signup(generic.CreateView):
   template_name = 'registration/signup.html'
   form_class = UserCreationFormWithEmail
   success_url = reverse_lazy('login')
+
+  def get(self, request, *args, **kwargs):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse_lazy('home:home'))
+    return super(Signup, self).get(request, *args, **kwargs)
 
 class ProfileUpdate(LoginRequiredMixin, generic.UpdateView):
   form_class = ProfileForm
