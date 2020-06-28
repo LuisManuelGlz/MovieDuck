@@ -19,13 +19,13 @@ class UserCreationFormWithEmail(UserCreationForm):
   def clean_first_name(self):
     first_name = self.cleaned_data.get('first_name')
     if not len(first_name) > 0:
-      raise forms.ValidationError("I know that's not your first name")
+      raise forms.ValidationError('The name not is valid')
     return first_name.strip()
 
   def clean_last_name(self):
     last_name = self.cleaned_data.get('last_name')
     if not len(last_name) > 0:
-      raise forms.ValidationError("I know that's not your last name")
+      raise forms.ValidationError('The last name not is valid')
     return last_name.strip()
 
   def clean_email(self):

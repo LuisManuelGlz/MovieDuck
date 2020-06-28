@@ -18,5 +18,9 @@
         <a class="btn btn-primary" href="{% url 'movies:movie_detail' movie.id %}">Read more</a>
       </div>
     </div>
+  {% empty %}
+    <div class="d-flex justify-content-center text-white font-weight-bolder">
+      No movies yet
+    </div>
   {% endfor %}
 {% endblock %}
