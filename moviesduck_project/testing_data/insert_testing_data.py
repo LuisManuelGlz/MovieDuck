@@ -39,6 +39,15 @@ people = [
     ("Todd Phillips", "todd.jpg"),
     ("Joaquin Phoenix", "joaquin.jpg"),
     ("Robert De Niro", "robert.jpg"),
+    ("Kevin Feige", "kevin_feige.jpg"),
+    ("Joe Russo", "russo.jpg"),
+    ("Stephen Mcfeely", "stephen_mcfeely.jpg"),
+    ("Christopher Markus", "christopher_markus.jpg"),
+    ("Robert Downey, Jr.", "robert-downey-jr.jpg"),
+    ("Chris Evans", "chris.jpg"),
+    ("Chris Hemsworth", "hemsworth.jpg"),
+    ("Scarlett Johansson", "scarlett.jpeg"),
+    ("Dave Bautista", "dave_bautista.jpg"),
 ]
 
 movies = [
@@ -57,6 +66,22 @@ movies = [
         ["Joaquin Phoenix"],
         ["Robert De Niro"],
         ["joker_screen_1.png", "joker_screen_2.png"]
+    ),
+    (
+        "Avengers Infinity War",
+        "infinity.jpeg",
+        "Iron Man, Thor, the Hulk and the rest of the Avengers unite to battle their most powerful enemy yet -- the evil Thanos. On a mission to collect all six Infinity Stones, Thanos plans to use the artifacts to inflict his twisted will on reality. The fate of the planet and existence itself has never been more uncertain as everything the Avengers have fought for has led up to this moment.",
+        "R",
+        ["Action", "Adventure", "Comic Books", "Science Fiction", "Superheroes"],
+        "2018-04-27",
+        316000000,
+        2048000000,
+        ["Kevin Feige"],
+        "Joe Russo",
+        ["Stephen Mcfeely", "Christopher Markus"],
+        ["Robert Downey, Jr.", "Chris Evans", "Chris Hemsworth", "Scarlett Johansson"],
+        ["Dave Bautista"],
+        ["infinity_screen_1.jpg", "infinity_screen_2.jpg"]
     )
 ]
 def insert_testing_data():
