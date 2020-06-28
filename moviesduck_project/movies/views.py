@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 from .models import Movie, Review, Comment, Like
 from .forms import ReviewForm, CommentForm
 from datetime import timedelta
@@ -22,18 +22,20 @@ class ReviewListMixin(ListView):
 class CarouselNewReleases(MovieListMixin):
     template_name = "movies/carousel_movie_list.html"
     queryset = Movie.objects.all()[:5]
+    carousel_name = "newReleasesCarousel"
 
 # Trending
 class CarouselTrending(MovieListMixin):
     template_name = "movies/carousel_movie_list.html"
     trending_list = True
+    carousel_name = "trendingCarousel"
 
     # Get movies BUT prefetch only reviews made in the last 24 hours
     queryset = Movie.objects \
             .prefetch_related(Prefetch("reviews", \
             Review.objects.filter(create_time__gt = localtime() - \
-            timedelta(days=1)))) \
-            .order_by("reviews__count")[:10]
+            timedelta(days=1)))).annotate(review_count=Count("reviews")) \
+            .order_by("review_count")[:10]
 
 # Most recent reviews
 class CarouselRecentReviews(ReviewListMixin):

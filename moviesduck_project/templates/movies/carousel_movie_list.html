@@ -1,4 +1,4 @@
-{% for movie in movies %}<div class="carousel-inner{% if forloop.first %} active{% endif %}">
+{% for movie in movies %}<div class="carousel-item{% if forloop.first %} active{% endif %}">
 	{% with screenshot=movie.screenshots.all|random %}<img class="d-block w-100" src="{{ screenshot.image.url }}" alt="{{ screenshot }}">{% endwith %}
 	<div class="carousel-caption text-left">
 		<h1>{{ movie.title }}</h1>
@@ -6,11 +6,11 @@
 		{% if view.trending_list %}<p>{{ movie.reviews.count }} review(s) in the last 24 hours</p>{% endif %}
 	</div>
 </div>{% endfor %}
-<a class="carousel-control-prev" role="button" data-slide="prev">
+<a class="carousel-control-prev" href="#{{ view.carousel_name }}" role="button" data-slide="prev">
 	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 	<span class="sr-only">Previous</span>
 </a>
-<a class="carousel-control-next" role="button" data-slide="next">
+<a class="carousel-control-next" href="#{{ view.carousel_name }}" role="button" data-slide="next">
 	<span class="carousel-control-next-icon" aria-hidden="true"></span>
 	<span class="sr-only">Next</span>
 </a>
