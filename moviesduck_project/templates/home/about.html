@@ -5,30 +5,47 @@
 
 {% block content %}
   <div class="row m-5">
-    <div class="col-12 col-lg-7">
+    <div class="col-12 col-lg-8">
       <h3 class="text-primary text-uppercase font-weight-bolder">
         Welcome to MovieDuck
       </h3>
+      <div class="media mt-5">
+        <img src="{% static 'img/duck.png' %}" alt="The Movieduck logo." class="mr-5 d-none d-lg-block">
+        <div class="media-body text-white align-middle">
+          <img height="150px" src="{% static 'img/duck.png' %}" alt="The Movieduck logo." class="mr-5 d-block d-lg-none float-left">
+          <h1 class="display-4 font-italic">"All reviews. No quackery."</h1>
+          <h4 class="mt-4">Here at MovieDuck we don't have complicated gimmicks, obtuse scores, or unfair scales.</h4>
+          <h4 class="mt-4">Just share your thoughts, your score, and let people see your review.</h4>
+          <h4 class="mt-4 font-italic font-weight-light text-muted">Tomatoes are for throwing at the screen!</h4>
+        </div>
+      </div>
+      <!--
       <div class="row">
         <div class="col-2">
           <img width="64px" src="{% static 'img/duck.png' %}" alt="logo">
         </div>
         <div class="col-10">
           <h2 class="text-white mt-4">
-            All reviews.<br />
-            No quackery.
+            All reviews. No quackery.
           </h2>
         </div>
       </div>
+      -->
       {% if not user.is_authenticated %}
-        <a class="btn btn-primary btn-lg mt-5" href="{% url 'registration:signup' %}">Sign up now</a>
+        <a class="btn btn-primary btn-lg mt-5" href="{% url 'registration:signup' %}">
+          <i class="fa fa-fw fa-users"></i>
+          Sign up!
+        </a>
       {% else %}
-        <a class="btn btn-primary btn-lg mt-5" href="{% url 'home:home' %}">Go to home</a>
+        <a class="btn btn-primary btn-lg mt-5" href="{% url 'home:home' %}">
+          <i class="fa fa-fw fa-home"></i>
+          Go to Home
+        </a>
       {% endif %}
       <br />
       <a class="btn btn-secondary mt-4" href="https://gitlab.com/LuisManuelGlz/movieduck-project" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-fw fa-gitlab"></i>
-        Source code
+        Source Code
       </a>
     </div>
   </div>
