@@ -5,14 +5,21 @@
 
 {% block content %}
   <div class="row m-5">
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-7">
       <h3 class="text-primary text-uppercase font-weight-bolder">
         Welcome to MovieDuck
       </h3>
-      <h2 class="text-white mt-4">
-        MovieDuck is a web platform for discussion, reviews, and general movie
-        information.
-      </h2>
+      <div class="row">
+        <div class="col-2">
+          <img width="64px" src="{% static 'img/duck.png' %}" alt="logo">
+        </div>
+        <div class="col-10">
+          <h2 class="text-white mt-4">
+            All reviews.<br />
+            No quackery.
+          </h2>
+        </div>
+      </div>
       {% if not user.is_authenticated %}
         <a class="btn btn-primary btn-lg mt-5" href="{% url 'registration:signup' %}">Sign up now</a>
       {% else %}
