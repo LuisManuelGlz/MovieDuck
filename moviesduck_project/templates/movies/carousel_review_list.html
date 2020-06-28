@@ -1,4 +1,4 @@
-{% for review in reviews %}<div class="carousel-item{% if forloop.first %} active{% endif %}">
+{% for review in reviews %}<a href="{{ review.review_detail_page_url }}" class="carousel-item{% if forloop.first %} active{% endif %}">
 	{% with screenshot=review.movie.screenshots.all|random %}<img class="d-block w-100" src="{{ screenshot.image.url }}" alt="{{ screenshot }}">{% endwith %}
 	<div class="carousel-caption text-left">
 		<h1>
@@ -8,7 +8,7 @@
 		<p>"{{ review.summary }}"</p>
 		<p>-{{ review.create_user.username }}</p>
 	</div>
-</div>
+</a>
 {% endfor %}
 <a class="carousel-control-prev" href="#newReviewsCarousel" role="button" data-slide="prev">
 	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
