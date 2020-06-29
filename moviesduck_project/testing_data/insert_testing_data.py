@@ -108,7 +108,7 @@ movies = [
         ["Insidious_screen_1.jpeg", "Insidious_screen_2.jpg"]
     )
 ]
-def insert_testing_data():
+def insert_testing_data(apps, schema_editor):
     def get_genere(name):
         return Genere.objects.get(name=name)
     def get_person(name):
