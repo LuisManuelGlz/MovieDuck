@@ -1,8 +1,5 @@
 # MovieDuck
 
->Este proyecto es una plataforma web de discusión, reseñas, e información general de películas.<br>
-[Click para entrar al sitio](https://movieduck.herokuapp.com/)
-
 Este proyecto usa MongoDB como base de datos por lo que es necesario instalar esta base de datos.<br>
 [Click para ir al manual de instalación de MongoDB](https://docs.mongodb.com/manual/installation/)
 
