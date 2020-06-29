@@ -55,7 +55,13 @@ people = [
     ("Leigh Whannell","Leigh Whannell.jpg"),
     ("Angus Sampson","Angus Sampson.jpg"),
     ("Spencer Locke","Spencer Locke.jpg"),
-    
+    ("Jeffrey Katzenberg", "jeffrey_katzenberg.jpg"),
+    ("John H. Williams", "john_h_williams.jpeg"),
+    ("Andrew Adamson", "andrew_adamson.jpg"),
+    ("Cody Cameron", "cody_cameron.jpg"),
+    ("Mike Myers", "mike_myers.jpg"),
+    ("Eddie Murphy", "eddie_murphy.jpg"),
+    ("John Lithgow", "john_lithgow.jpg"),
 ]
 
 movies = [
@@ -106,7 +112,23 @@ movies = [
         ["Angus Sampson"],
         ["Spencer Locke"],
         ["Insidious_screen_1.jpeg", "Insidious_screen_2.jpg"]
-    )
+    ),
+    (
+        "Shrek",
+        "shrek.jpeg",
+        "Once upon a time, in a far away swamp, there lived an ogre named Shrek whose precious solitude is suddenly shattered by an invasion of annoying fairy tale characters. They were all banished from their kingdom by the evil Lord Farquaad. Determined to save their home -- not to mention his -- Shrek cuts a deal with Farquaad and sets out to rescue Princess Fiona to be Farquaad's bride. Rescuing the Princess may be small compared to her deep, dark secret.",
+        "PG",
+        ["Adventure", "Animated", "Comedy", "Fantasy"],
+        date(2001, 6, 29),
+        60000000,
+        484400000,
+        ["Jeffrey Katzenberg", "John H. Williams"],
+        "Andrew Adamson",
+        ["Andrew Adamson", "Cody Cameron"],
+        ["Mike Myers", "Eddie Murphy"],
+        ["John Lithgow"],
+        ["shrek_screen_1.jpg", "shrek_screen_2.jpg"]
+    ),
 ]
 def insert_testing_data(apps, schema_editor):
     def get_genere(name):
