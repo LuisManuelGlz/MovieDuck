@@ -49,8 +49,8 @@ people = [
     ("Chris Hemsworth", "hemsworth.jpg"),
     ("Scarlett Johansson", "scarlett.jpeg"),
     ("Dave Bautista", "dave_bautista.jpg"),
-    ("Adam Robitel","jpg"),
-    ("Jason Blum","Jason Blum.jpg")
+    ("Adam Robitel","Adam Robitel.jpg"),
+    ("Jason Blum","Jason Blum.jpg"),
     ("Lin Shaye","Lin Shaye.jpeg"),
     ("Leigh Whannell","Leigh Whannell.jpg"),
     ("Angus Sampson","Angus Sampson.jpg"),
@@ -97,10 +97,10 @@ movies = [
         "Parapsychologist Elise Rainier receives a disturbing call from a man who claims that his house is haunted. Even more disturbing is the address of the house, which is where Elise lived as a child.",
         "R",
         ["Terror","Misterio","Suspenso"],
-        "2018-02-04",
+        date(2018, 2, 4),
         500000000,
         3000000000,
-        ["Adam Robitel"]
+        ["Adam Robitel"],
         "Jason Blum",
         ["Lin Shaye", "Leigh Whannell"],
         ["Angus Sampson"],
