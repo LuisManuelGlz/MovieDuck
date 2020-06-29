@@ -96,7 +96,7 @@ movies = [
         "Insidious.jpg",
         "Parapsychologist Elise Rainier receives a disturbing call from a man who claims that his house is haunted. Even more disturbing is the address of the house, which is where Elise lived as a child.",
         "R",
-        ["Terror","Misterio","Suspenso"],
+        ["Horror","Mystery","Thriller"],
         date(2018, 2, 4),
         500000000,
         3000000000,
@@ -106,8 +106,6 @@ movies = [
         ["Angus Sampson"],
         ["Spencer Locke"],
         ["Insidious_screen_1.jpeg", "Insidious_screen_2.jpg"]
-
-
     )
 ]
 def insert_testing_data():
