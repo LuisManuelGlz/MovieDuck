@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from movies.models import *
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -57,7 +58,7 @@ movies = [
         "In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: the Joker.",
         "R",
         ["Crime", "Comic Books", "Drama", "Thriller"],
-        "2019-10-04",
+        date(2019, 10, 4),
         70000000,
         1074000000,
         ["Todd Phillips"],
@@ -73,7 +74,7 @@ movies = [
         "Iron Man, Thor, the Hulk and the rest of the Avengers unite to battle their most powerful enemy yet -- the evil Thanos. On a mission to collect all six Infinity Stones, Thanos plans to use the artifacts to inflict his twisted will on reality. The fate of the planet and existence itself has never been more uncertain as everything the Avengers have fought for has led up to this moment.",
         "R",
         ["Action", "Adventure", "Comic Books", "Science Fiction", "Superheroes"],
-        "2018-04-27",
+        date(2018, 4, 27),
         316000000,
         2048000000,
         ["Kevin Feige"],
@@ -93,36 +94,49 @@ def insert_testing_data():
         Genere.objects.get_or_create(name=genere)
     for rating in ratings:
         Rating.objects.get_or_create(name=rating)
-    Movie.objects.all().delete()
-    Person.objects.all().delete()
     for person in people:
-        object = Person(name=person[0])
-        portrait_dir = os.path.join(os.path.dirname(__file__), f"images/{person[1]}")
-        print(f"Portrait: {portrait_dir}")
-        object.portrait.save(person[1], File(open(portrait_dir, "rb")))
-        object.save()
+        person_exists = Person.objects.filter(name=person[0]).exists()
+
+        if not person_exists:
+            person_object = Person(name=person[0])
+            print(f"New person {person_object} correctly added to database.")
+            portrait_dir = os.path.join(os.path.dirname(__file__), f"images/{person[1]}")
+            print(f"Portrait: {portrait_dir}")
+            person_object.portrait.save(person[1], File(open(portrait_dir, "rb")))
+            person_object.save()
+
+        else:
+            print(f"Person {person[0]} already in database. Skipping...")
+
     for movie in movies:
-        movie_object = Movie(
-            title=movie[0],
-            summary=movie[2],
-            rating=Rating.objects.get(name=movie[3]),
-            release_date=movie[5],
-            budget=movie[6],
-            returns=movie[7],
-            director=Person.objects.get(name=movie[9])
-        )
-        poster_dir = os.path.join(os.path.dirname(__file__), f"images/{movie[1]}")
-        print(f"Poster: {poster_dir}")
-        movie_object.poster.save(movie[1], File(open(poster_dir, "rb")))
-        movie_object.generes.add(*list(map(get_genere, movie[4])))
-        movie_object.producers.add(*list(map(get_person, movie[8])))
-        movie_object.writers.add(*list(map(get_person, movie[10])))
-        movie_object.stars.add(*list(map(get_person, movie[11])))
-        movie_object.cast.add(*list(map(get_person, movie[12])))
-        movie_object.save()
-        for screenshot in movie[13]:
-            screenshot_object = MovieScreenshot(movie=movie_object)
-            screenshot_dir = os.path.join(os.path.dirname(__file__), f"images/{screenshot}")
-            print(f"Screenshot: {screenshot_dir}")
-            screenshot_object.image.save(screenshot, File(open(screenshot_dir, "rb")))
-            screenshot_object.save()
+        movie_exists = Movie.objects.filter(title=movie[0]).exists()
+
+        if not movie_exists:
+            movie_object= Movie(
+                title=movie[0],
+                summary=movie[2],
+                rating=Rating.objects.get(name=movie[3]),
+                release_date=movie[5],
+                budget=movie[6],
+                returns=movie[7],
+                director=Person.objects.get(name=movie[9])
+                )
+            print(f"New movie {movie_object} correctly added to database.")
+            poster_dir = os.path.join(os.path.dirname(__file__), f"images/{movie[1]}")
+            print(f"Poster: {poster_dir}")
+            movie_object.poster.save(movie[1], File(open(poster_dir, "rb")))
+            movie_object.generes.add(*list(map(get_genere, movie[4])))
+            movie_object.producers.add(*list(map(get_person, movie[8])))
+            movie_object.writers.add(*list(map(get_person, movie[10])))
+            movie_object.stars.add(*list(map(get_person, movie[11])))
+            movie_object.cast.add(*list(map(get_person, movie[12])))
+            movie_object.save()
+            for screenshot in movie[13]:
+                screenshot_object = MovieScreenshot(movie=movie_object)
+                screenshot_dir = os.path.join(os.path.dirname(__file__), f"images/{screenshot}")
+                print(f"Screenshot: {screenshot_dir}")
+                screenshot_object.image.save(screenshot, File(open(screenshot_dir, "rb")))
+                screenshot_object.save()
+
+        else:
+            print(f"Movie {movie[0]} already in database. Skipping...")
