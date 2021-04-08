@@ -11,7 +11,7 @@ class UserTestCase(TestCase):
       last_name="Glz",
       email="luis@mail.com",
       password="password123"
-    );
+    )
 
   """
   Checks if the sign up page loads successful.
