@@ -1,7 +1,7 @@
 {% load usercontent_interact %}
 <div id="comment{{ comment.pk }}" class="media">
 	<img
-		class="mr-3"
+		class="mr-3 rounded-lg"
 		src="{{ comment.create_user.profile.avatar.url }}"
 		alt="Avatar of {{ comment.create_user.username }}"
 		style="width:50px;height:auto;"

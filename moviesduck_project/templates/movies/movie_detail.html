@@ -25,7 +25,7 @@
             <!-- SUMMARY, GENERES, AND POSTER -->
             <div class="media">
               <img
-                class="mr-3"
+                class="mr-3 rounded-lg"
                 src="{{ movie.poster.url }}"
                 alt="Poster for {{ movie }}"
                 style="width:200px;height:auto;"
@@ -46,7 +46,7 @@
               <div class="carousel-inner">
                 {% for screenshot in movie.screenshots.all %}
                   <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{{ screenshot.image.url }}" class="d-block w-100" alt="{{ screenshot }}">
+                    <img src="{{ screenshot.image.url }}" class="d-block w-100 rounded-lg" alt="{{ screenshot }}">
                   </div>
                 {% endfor %}
               </div>
