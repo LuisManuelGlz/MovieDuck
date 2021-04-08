@@ -9,7 +9,7 @@
 ## Instalación
 ```bash
 # Clonamos el repositorio
-git clone git@gitlab.com:LuisManuelGlz/movieduck-project.git
+git clone https://github.com/LuisManuelGlz/MovieDuck.git
 
 # Entramos al proyecto
 cd MovieDuck
