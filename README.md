@@ -1,12 +1,18 @@
-# MovieDuck
+<div align="center">
 
-Este proyecto usa MongoDB como base de datos por lo que es necesario instalar esta base de datos.<br>
-[Click para ir al manual de instalación de MongoDB](https://docs.mongodb.com/manual/installation/)
+  <img src="https://user-images.githubusercontent.com/37312790/114077634-def5dc80-985c-11eb-8071-c51be53f1c5f.png" alt="MovieDuck logo" width=200 />
+
+  # MovieDuck
+
+</div>
 
 ## Instalación
 ```bash
 # Clonamos el repositorio
 git clone git@gitlab.com:LuisManuelGlz/movieduck-project.git
+
+# Entramos al proyecto
+cd MovieDuck
 
 # Creamos el entorno virtual
 virtualenv -p python3 venv
